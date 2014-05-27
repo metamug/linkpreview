@@ -43,8 +43,12 @@ public class ImageManipulation {
             //crop the image from the center to max height 
             //int y = buffImage.getHeight() / 2 - height / 2; 
             //cropped from top
-            int y = (int) (buffImage.getHeight() * 0.05f);
-            buffImage = crop(buffImage, 0, y, width, height);
+
+            int y = (int) (buffImage.getHeight() * 0.05f); //five % from top
+
+            if (y + height <= buffImage.getHeight()) {
+                buffImage = crop(buffImage, 0, y, width, height);
+            }
 
         }
         return buffImage;
