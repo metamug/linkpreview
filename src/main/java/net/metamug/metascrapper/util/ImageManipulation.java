@@ -8,22 +8,14 @@ import static net.metamug.metascrapper.util.StorageManager.getBytes;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
 import org.imgscalr.Scalr;
 import static org.imgscalr.Scalr.*;
 
@@ -44,6 +36,14 @@ public class ImageManipulation {
             //int y = buffImage.getHeight() / 2 - height / 2; 
             //cropped from top
 
+            
+            
+            
+            
+            
+            
+            
+            
             int y = (int) (buffImage.getHeight() * 0.05f); //five % from top
 
             if (y + height <= buffImage.getHeight()) {
@@ -51,6 +51,9 @@ public class ImageManipulation {
             }
 
         }
+        
+        
+        
         return buffImage;
     }
 
