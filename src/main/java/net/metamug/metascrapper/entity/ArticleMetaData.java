@@ -6,6 +6,9 @@ package net.metamug.metascrapper.entity;
 
 import java.util.Date;
 
+// test import and push operatios
+import java.util.LinkedList;
+
 /**
  *
  * @author deepak
