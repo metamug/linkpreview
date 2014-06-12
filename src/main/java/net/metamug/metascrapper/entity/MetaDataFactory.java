@@ -6,6 +6,7 @@ package net.metamug.metascrapper.entity;
 
 import net.metamug.metascrapper.strategy.WebMetaStrategy;
 import net.metamug.metascrapper.strategy.WikipediaMetaStrategy;
+import net.metamug.metascrapper.strategy.StackoverflowStrategy;
 import static net.metamug.metascrapper.util.MetaScrapperUtil.getHost;
 import net.metamug.metascrapper.util.StorageManager;
 import java.io.IOException;
@@ -60,7 +61,12 @@ public class MetaDataFactory {
         Element metablock;
         if (url.contains("wikipedia.org/wiki/") && (metablock = doc.select("body.mediawiki").first()) != null) {
             strategy = new WikipediaMetaStrategy(doc, url, metablock);
-        } else if ((metablock = doc.select("[itemtype=http://schema.org/Product]").first()) != null) {
+        } 
+        else if(url.contains("stackoverflow") && (metablock = doc.select("body.question-page").first()) != null){
+            System.out.println("Entered else of SO");
+            strategy = new StackoverflowStrategy(doc, url, metablock);
+        }
+        else if ((metablock = doc.select("[itemtype=http://schema.org/Product]").first()) != null) {
             //strategy = new ProductMetaStrategy(doc, url, metablock);
         } else if ((metablock = doc.select("[itemtype=http://schema.org/Restaurant]").first()) != null) {
         }
