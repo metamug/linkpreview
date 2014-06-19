@@ -46,11 +46,11 @@ public class MetaDataFactoryTest {
 
     @Test
     public void testCreate() {
-        System.out.println("create");
-        String url = "http://stackoverflow.com/questions/8710619/java-operator";
+//        System.out.println("create");
+        String url = "http://stackoverflow.com/questions/5963269/how-to-make-a-great-r-reproducible-example";
         WebMetaData result = MetaDataFactory.create(url);
         System.out.println(result.getDescription());
-        System.out.println(result.getThumbnail().getUrl());
+//        System.out.println(result.getThumbnail().getUrl());
     }
     
     
