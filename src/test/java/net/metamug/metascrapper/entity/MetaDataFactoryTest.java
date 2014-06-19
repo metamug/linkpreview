@@ -43,33 +43,30 @@ public class MetaDataFactoryTest {
     /**
      * Test of create method, of class MetaDataFactory.
      */
+
     @Test
     public void testCreate() {
-        System.out.println("create");
-        String url = "http://p-ec2.pixstatic.com/5069e767dbd0cb305d000b73._w.1500_s.fit_.jpg";
-        //WebMetaData expResult = null;
+//        System.out.println("create");
+        String url = "http://stackoverflow.com/questions/5963269/how-to-make-a-great-r-reproducible-example";
         WebMetaData result = MetaDataFactory.create(url);
-//        System.out.println(result.getTitle());
-        System.out.println(result.getThumbnail().getUrl());
-//        System.out.println(result.getDescription());
-        //assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        System.out.println(result.getDescription());
+//        System.out.println(result.getThumbnail().getUrl());
     }
-
+    
+    
     /**
      * Test of getMetaStrategy method, of class MetaDataFactory.
      */
     //@Test
-    public void testGetMetaStrategy() {
-        System.out.println("getMetaStrategy");
-        Document doc = null;
-        String url = "";
-        WebMetaStrategy expResult = null;
-        WebMetaStrategy result = MetaDataFactory.getMetaStrategy(doc, url);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    public void testGetMetaStrategy() {
+//        System.out.println("getMetaStrategy");
+//        Document doc = null;
+//        String url = "";
+//        WebMetaStrategy expResult = null;
+//        WebMetaStrategy result = MetaDataFactory.getMetaStrategy(doc, url);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
     
 }

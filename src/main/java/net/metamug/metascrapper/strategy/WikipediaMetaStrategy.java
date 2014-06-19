@@ -14,8 +14,9 @@ import org.jsoup.select.Elements;
  *
  * @author deepak if (url.contains("wikipedia.org/wiki/")) { }
  */
-public class WikipediaMetaStrategy extends WebMetaStrategy {
+public class WikipediaMetaStrategy extends WebMetaStrategy 
 
+{
     Element metablock;
 
     public WikipediaMetaStrategy(Document doc, String url, Element metablock) {

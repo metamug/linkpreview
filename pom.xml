@@ -48,6 +48,18 @@
             <version>4.10</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.crawler-commons</groupId>
+            <artifactId>crawler-commons</artifactId>
+            <version>0.4</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.7</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
