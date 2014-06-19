@@ -43,18 +43,35 @@ public class RobotsTxtTest {
      */
     @Test
     public void testCanAccess() {        
+        
+        // expected: false
         String url = "http://stackoverflow.com/search?q=jdk";
         RobotsTxt robo = new RobotsTxt(url);
         boolean expResult = false;
         boolean result = robo.canAccess(url);
         assertEquals(expResult, result);
         
+        url="https://stackoverflow.com/users/login?returnurl=http%3a%2f%2fstackoverflow.com%2f";
+        robo = new RobotsTxt(url);
+        expResult = false;
+        result=robo.canAccess(url);
+        assertEquals(expResult, result);
         
+        
+        // expected: true
         url="http://stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-an-unsorted-array";
         robo = new RobotsTxt(url);
         expResult = true;
         result=robo.canAccess(url);
         assertEquals(expResult, result);
+        
+       // vogella.com dosent have rabots.txt
+        url="http://www.vogella.com/tutorials/ApacheHttpClient/article.html";
+        robo = new RobotsTxt(url);
+        expResult = true;
+        result=robo.canAccess(url);
+        assertEquals(expResult, result);
+        
     }
     
 }
