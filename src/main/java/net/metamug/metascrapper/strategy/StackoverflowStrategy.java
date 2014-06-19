@@ -5,12 +5,10 @@
  */
 package net.metamug.metascrapper.strategy;
 
-import org.jsoup.nodes.Document;
 import net.metamug.metascrapper.entity.WebMetaData;
 import static net.metamug.metascrapper.util.MetaScrapperUtil.getHost;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 /**
  *
@@ -29,7 +27,6 @@ public class StackoverflowStrategy extends WebMetaStrategy {
     public WebMetaData getMeta() {
         WebMetaData meta = new WebMetaData();
         meta.setTitle(getTitle());
-        System.out.println(getTitle());
         meta.setDomain(getHost(url));
         meta.setType("text/html");
         meta.setDescription(getStackoverflowD());

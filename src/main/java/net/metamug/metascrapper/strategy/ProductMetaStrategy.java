@@ -4,13 +4,11 @@
  */
 package net.metamug.metascrapper.strategy;
 
-import net.metamug.metascrapper.entity.MetaData;
 import net.metamug.metascrapper.entity.ProductMetaData;
 import net.metamug.metascrapper.entity.WebMetaData;
 import net.metamug.metascrapper.util.MetaExtract;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 /**
  *
@@ -28,37 +26,36 @@ public class ProductMetaStrategy extends WebMetaStrategy {
 
     @Override
     public WebMetaData getMeta() {
-        System.out.println("Product metadata");
 
         ProductMetaData meta = new ProductMetaData(super.getMeta());
-
-        meta.setName(MetaExtract.getSchemaPropery(productBlock,
-                "[itemprop=name]"));
-
-        meta.setPrice(Double.parseDouble(MetaExtract.getSchemaPropery(productBlock,
-                "[itemprop=price]")));
-
-        meta.setPrice(Double.parseDouble(MetaExtract.getFirstText(productBlock,
-                "[itemprop=price]")));
-
-        meta.setPriceCurrency(MetaExtract.getSchemaPropery(productBlock,
-                "[itemprop=priceCurrency]"));
-
-        meta.setType(MetaData.PRODUCT);
         
-        meta.setRatingValue(Float.parseFloat(
-                MetaExtract.getSchemaPropery(productBlock,
-                "[itemprop=ratingValue]")));
-
-        String temp;
+        meta.setName(MetaExtract.getSchemaPropery(productBlock, "[itemprop=name]"));
         
-        if ((temp = MetaExtract.getSchemaPropery(productBlock, "[itemprop=ratingCount]")) != null) {
-            meta.setRatingCount(Integer.parseInt(temp));
-        }
+//         meta.setPrice(Double.parseDouble(MetaExtract.getSchemaPropery(productBlock,
+//                 "span.pprice").substring(3)));
+//
+//         meta.setPrice(Double.parseDouble(MetaExtract.getFirstText(productBlock,
+//                 "[itemprop=price]")));
 
-        if ((temp = MetaExtract.getSchemaPropery(productBlock, "[itemprop=reviewCount]")) != null) {
-            meta.setReviewCount(Integer.parseInt(temp));
-        }
+//         meta.setPriceCurrency(MetaExtract.getSchemaPropery(productBlock,
+//                 "[itemprop=priceCurrency]"));
+//
+//         meta.setType(MetaData.PRODUCT);
+        
+//         meta.setRatingValue(Float.parseFloat(
+//                 MetaExtract.getSchemaPropery(productBlock,
+//                 "[itemprop=ratingValue]")));
+
+//         String temp;
+//        
+//         if ((temp = MetaExtract.getSchemaPropery(productBlock, "[itemprop=ratingCount]")) != null) {
+//             meta.setRatingCount(Integer.parseInt(temp));
+//         }
+//
+//         if ((temp = MetaExtract.getSchemaPropery(productBlock, "[itemprop=reviewCount]")) != null) {
+//             meta.setReviewCount(Integer.parseInt(temp));
+//         }
+		
         return meta;
     }
 }

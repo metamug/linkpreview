@@ -6,14 +6,11 @@
 
 package net.metamug.metascrapper.entity;
 
-import net.metamug.metascrapper.strategy.WebMetaStrategy;
-import org.jsoup.nodes.Document;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -45,28 +42,27 @@ public class MetaDataFactoryTest {
      */
 
     @Test
-    public void testCreate() {
+    public void testArticle() {
 //        System.out.println("create");
         String url = "http://stackoverflow.com/questions/5963269/how-to-make-a-great-r-reproducible-example";
+        
         WebMetaData result = MetaDataFactory.create(url);
-        System.out.println(result.getDescription());
+//        System.out.println(result.getDescription());       
 //        System.out.println(result.getThumbnail().getUrl());
     }
     
-    
-    /**
-     * Test of getMetaStrategy method, of class MetaDataFactory.
-     */
-    //@Test
-//    public void testGetMetaStrategy() {
-//        System.out.println("getMetaStrategy");
-//        Document doc = null;
-//        String url = "";
-//        WebMetaStrategy expResult = null;
-//        WebMetaStrategy result = MetaDataFactory.getMetaStrategy(doc, url);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Test
+    public void testProduct()
+    {
+        String url = "http://www.flipkart.com/moto-e/p/itmdvuwsybgnbtha?pid=MOBDVHC6XKKPZ3GZ&otracker=hp_mod_electronics_bestseller_prd_img";
+        ProductMetaData p = (ProductMetaData) MetaDataFactory.create(url);
+        
+        System.out.println(p.getName());
+        System.out.println(p.getPrice());
+        System.out.println(p.getPriceCurrency());
+        System.out.println(p.getRatingCount());
+//        System.out.println(p.getRatingValue());
+        System.out.println(p.getReviewCount());
+    }
     
 }

@@ -51,6 +51,7 @@ public class MetaExtract {
             metaElement = metaElements.first();
             content = metaElement.attr(attribute);
         }
+        
         if (content != null) {
             return content.isEmpty() ? null : content;
         }

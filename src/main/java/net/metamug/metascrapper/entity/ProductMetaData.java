@@ -80,7 +80,16 @@ public class ProductMetaData extends WebMetaData implements MetaData {
     public void setPriceCurrency(String priceCurrency) {
         this.priceCurrency = priceCurrency;
     }
+    
+    public String getBrand()
+    {
+        return this.brand;
+    }
 
+    public void setBrand(String brand)
+    {
+        this.brand = brand;
+    }
     @Override
     public String toString() {
         return "ProductMetaData{" + "name=" + name + ", ratingValue=" + ratingValue + ", ratingCount=" + ratingCount + ", reviewCount=" + reviewCount + ", price=" + price + ", priceCurrency=" + priceCurrency + '}';
