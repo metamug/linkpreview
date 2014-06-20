@@ -12,35 +12,23 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import net.metamug.metascrapper.entity.MetaImage;
-import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import net.sf.image4j.codec.ico.ICODecoder;
-import net.sf.image4j.codec.ico.ICOEncoder;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FileUtils;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.imgscalr.Scalr;
-import static org.imgscalr.Scalr.OP_ANTIALIAS;
-import static org.imgscalr.Scalr.OP_BRIGHTER;
-import static org.imgscalr.Scalr.crop;
 import static org.imgscalr.Scalr.crop;
 import static org.imgscalr.Scalr.resize;
-import static org.imgscalr.Scalr.resize;
-import org.jsoup.Connection;
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 
@@ -163,15 +151,19 @@ public class StorageManager {
                 Logger.getLogger(StorageManager.class.getName()).log(Level.SEVERE, null, ex);
             }
             //crop image
-
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             String fileName = "metamug_publisher_"
                     + RandomStringUtils.randomAlphanumeric(16)
                     + "." + IMAGE_TYPE;
+
+            upload(getInputStream(
+                    ImageManipulation.squareThumb(buffImage, 32), bos),
+                    bos.size(),
+                    fileName + "_32x32");
+
             return upload(getInputStream(buffImage, bos),
                     bos.size(),
                     fileName);
-
         } else {
             return null;
         }
@@ -202,7 +194,7 @@ public class StorageManager {
             } else if (buffImage.getWidth() >= StorageManager.SMALLER_IMAGE_SIZE) { //compact view eg. 125
                 buffImage = ImageManipulation.squareThumb(buffImage, SMALLER_IMAGE_SIZE);
             }
-            
+
             im.setWidth((short) buffImage.getWidth());
             im.setHeight((short) buffImage.getHeight());
 
@@ -320,4 +312,5 @@ public class StorageManager {
 //        }
 //        return null;
 //    }
+
 }

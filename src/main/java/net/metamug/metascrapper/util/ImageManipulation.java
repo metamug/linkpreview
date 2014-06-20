@@ -27,6 +27,7 @@ public class ImageManipulation {
 
     public static final int CROP_OFFSET = 40;
 
+    /* For full width images **/
     public static BufferedImage resizeLargeThumbnail(BufferedImage buffImage, int width) {
         //resize the image
         buffImage = resize(buffImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_WIDTH, width, Scalr.OP_ANTIALIAS);
@@ -35,6 +36,7 @@ public class ImageManipulation {
             //crop the image from the center to max height 
             //int y = buffImage.getHeight() / 2 - height / 2; 
             //cropped from top
+
             int y = (int) (buffImage.getHeight() * 0.05f); //five % from top
 
             if (y + height <= buffImage.getHeight()) {
@@ -42,9 +44,7 @@ public class ImageManipulation {
             }
 
         }
-        
-        
-        
+
         return buffImage;
     }
 
@@ -97,6 +97,12 @@ public class ImageManipulation {
         return d;
     }
 
+    /**
+     * For small thumbnail images*
+     * @param image
+     * @param size
+     * @return 
+     */
     public static BufferedImage squareThumb(BufferedImage image, int size) {
         int height = image.getHeight();
         int width = image.getWidth();
@@ -109,7 +115,7 @@ public class ImageManipulation {
             image = crop(image, x, 0, height, height);
             //resize to size
             image = resize(image, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_WIDTH, size, Scalr.OP_ANTIALIAS);
-        } else {
+        } else { // for square image and potrait images
             image = resize(image, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_WIDTH, size, Scalr.OP_ANTIALIAS);
         }
         return image;
