@@ -54,7 +54,9 @@ public class MetaDataFactoryTest {
     @Test
     public void testProduct()
     {
-        String url = "http://www.flipkart.com/moto-e/p/itmdvuwsybgnbtha?pid=MOBDVHC6XKKPZ3GZ&otracker=hp_mod_electronics_bestseller_prd_img";
+//        String url = "http://www.flipkart.com/moto-e/p/itmdvuwsybgnbtha?pid=MOBDVHC6XKKPZ3GZ&otracker=hp_mod_electronics_bestseller_prd_img";
+        String url = "http://www.flipkart.com/htc-desire-210/p/itmdvzg8bnph9xja?pid=MOBDVZ6TDYZCKRDC&icmpid=reco_pp_same_mobile_1&ppid=MOBDVHC6XKKPZ3GZ";
+        
         ProductMetaData p = (ProductMetaData) MetaDataFactory.create(url);
         
         System.out.println(p.getName());

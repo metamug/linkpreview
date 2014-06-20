@@ -37,7 +37,7 @@ public class FlipkartStrategy extends WebMetaStrategy
         meta.setName(MetaExtract.getFirstText(productBlock,"[itemprop=name]"));        
         meta.setPrice(Double.parseDouble(MetaExtract.getFirstText(productBlock, "span.pprice").substring(3)));
         
-        meta.setPriceCurrency(MetaExtract.getFirstText(productBlock, "[itemprop=priceCurrency]"));
+        meta.setPriceCurrency(MetaExtract.getSchemaPropery(productBlock, "[itemprop=priceCurrency]"));
         
         meta.setRatingCount((Integer.parseInt(MetaExtract.getFirstText(productBlock, "[itemprop=ratingCount]"))));
 //        meta.setRatingValue(Float.parseFloat(MetaExtract.getFirstText(productBlock, "[itemprop=ratingValue]")));
