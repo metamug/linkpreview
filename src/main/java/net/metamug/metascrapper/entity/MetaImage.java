@@ -11,10 +11,10 @@ public class MetaImage {
     private String url;
     private Short width;
     private Short height;
-
+    
     public MetaImage() {
     }
-
+    
     public MetaImage(String imageId) {
         this.id = imageId;
     }
@@ -50,7 +50,7 @@ public class MetaImage {
     public void setHeight(Short height) {
         this.height = height;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

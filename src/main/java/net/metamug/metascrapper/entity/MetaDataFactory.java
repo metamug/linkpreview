@@ -5,10 +5,9 @@
 package net.metamug.metascrapper.entity;
 
 import java.io.IOException;
-import net.metamug.metascrapper.strategy.ProductMetaStrategy;
-import net.metamug.metascrapper.strategy.StackoverflowStrategy;
-import net.metamug.metascrapper.strategy.WebMetaStrategy;
-import net.metamug.metascrapper.strategy.WikipediaMetaStrategy;
+
+import net.metamug.metascrapper.strategy.*;
+
 import static net.metamug.metascrapper.util.MetaScrapperUtil.getHost;
 import net.metamug.metascrapper.util.RobotsTxt;
 import net.metamug.metascrapper.util.StorageManager;
@@ -29,46 +28,49 @@ public class MetaDataFactory {
         RobotsTxt robo = new RobotsTxt(url);
         
         if(robo.canAccess(url))
-        {
-            //The factory must create the appropriate strategy
-            Response response = StorageManager.getResponse(url);
-            if (response == null || response.contentType() == null ) {
-                return new WebMetaData("Error", "http://metamug.com/assets/img/symbols/alert-triangle-grey.png", "text/html", "Unable to reach the page " + url, "http://metamug.com/assets/img/symbols/alert-triangle-grey.png");
-            }
-            //System.out.println(response.body());
-            if (response.contentType().startsWith("image")) {
-                return new WebMetaData("Image " + WordUtils.capitalize(FilenameUtils.getBaseName(url).replaceAll("[-_]", " ")), getHost(url), "image", url, url.split("\\?")[0]);
-            } else if (response.contentType().startsWith("application/pdf")) {
-                return new WebMetaData("PDF", getHost(url), "pdf", url, "http://metamug.com/assets/img/symbols/pdf_symbol.png");
-                //return new PDFMetaData("http://metamug.com/assets/img/symbols/pdf_symbol.png");
-            } else if (response.contentType().startsWith("audio")) {
-                return new WebMetaData("Audio", getHost(url), "audio", url, "http://metamug.com/assets/img/music-icon.png");
-            } else {
-                try {
-                    Document document = response.parse();
-                    WebMetaStrategy metaFinder;
-                    metaFinder = getMetaStrategy(document, url);
-                    return metaFinder.getMeta();
-                    
-                } catch (IOException ex) {
-                    //keeping level severe halts execution
-                    //Logger.getLogger(WebMetaStrategy.class.getName()).log(Level.INFO, null, ex);
-                    //if (response.statusCode() / 100 == 4) {
-                    return new WebMetaData("Error", "http://metamug.com/assets/img/symbols/alert-triangle-grey.png", "text/html",
-                            "Unable to reach the page " + url, "http://metamug.com/assets/img/symbols/alert-triangle-grey.png");
-                    //}
-                    //return null;
+            {
+                //The factory must create the appropriate strategy
+                Response response = StorageManager.getResponse(url);
+                if (response == null || response.contentType() == null ) {
+                    return new WebMetaData("Error", "http://metamug.com/assets/img/symbols/alert-triangle-grey.png", "text/html", "Unable to reach the page " + url, "http://metamug.com/assets/img/symbols/alert-triangle-grey.png");
+                }
+                //System.out.println(response.body());
+                if (response.contentType().startsWith("image")) {
+                    return new WebMetaData("Image " + WordUtils.capitalize(FilenameUtils.getBaseName(url).replaceAll("[-_]", " ")), getHost(url), "image", url, url.split("\\?")[0]);
+                }
+                else if (response.contentType().startsWith("application/pdf")) {
+                    return new WebMetaData("PDF", getHost(url), "pdf", url, "http://metamug.com/assets/img/symbols/pdf_symbol.png");
+                    //return new PDFMetaData("http://metamug.com/assets/img/symbols/pdf_symbol.png");
+                }
+                else if (response.contentType().startsWith("audio")) {
+                    return new WebMetaData("Audio", getHost(url), "audio", url, "http://metamug.com/assets/img/music-icon.png");
+                }
+                else {
+                    try {
+                        Document document = response.parse();
+                        WebMetaStrategy metaFinder;
+                        metaFinder = getMetaStrategy(document, url);
+                        return metaFinder.getMeta();
+
+                    } catch (IOException ex) {
+                        //keeping level severe halts execution
+                        //Logger.getLogger(WebMetaStrategy.class.getName()).log(Level.INFO, null, ex);
+                        //if (response.statusCode() / 100 == 4) {
+                        return new WebMetaData("Error", "http://metamug.com/assets/img/symbols/alert-triangle-grey.png", "text/html",
+                                "Unable to reach the page " + url, "http://metamug.com/assets/img/symbols/alert-triangle-grey.png");
+                        //}
+                        //return null;
+                    }
                 }
             }
+            else
+            {
+                return new WebMetaData("Error", "http://metamug.com/assets/img/symbols/alert-triangle-grey.png", "text/html",
+                        "Unable to reach the page " + url, "http://metamug.com/assets/img/symbols/alert-triangle-grey.png");
+            }
+
+
         }
-        else
-        {
-            return new WebMetaData("Error", "http://metamug.com/assets/img/symbols/alert-triangle-grey.png", "text/html",
-                    "Unable to reach the page " + url, "http://metamug.com/assets/img/symbols/alert-triangle-grey.png");
-        }
-        
-        
-    }
 
     public static WebMetaStrategy getMetaStrategy(Document doc, String url) {
         WebMetaStrategy strategy = new WebMetaStrategy(doc, url);
@@ -79,17 +81,25 @@ public class MetaDataFactory {
         else if(url.contains("stackoverflow") && (metablock = doc.select("body.question-page").first()) != null){
             strategy = new StackoverflowStrategy(doc, url, metablock);
         }
-//        else if ((metablock = doc.select("[itemtype=http://schema.org/Product]").first()) != null) {
-//            strategy = new ProductMetaStrategy(doc, url, metablock);
-//            if(url.contains("flipkart") && meta)
-//        }
-        else if (url.contains("flipkart") && (metablock = doc.select("body.ProductPage").first()) !=null)
+
+        else if (url.contains("flipkart.com") && (metablock = doc.select("body.ProductPage").first()) != null)
         {
-            strategy = new FlipkartStrategy(doc, url, metablock);
+            strategy = new ProductMetaStrategy(doc, url, metablock);
         }
-        else if ((metablock = doc.select("[itemtype=http://schema.org/Restaurant]").first()) != null) {
+
+        else if (url.contains("amazon.in") && (metablock = doc.select("body.dp").first()) != null)
+        {
+            strategy = new ProductMetaStrategy(doc, url, metablock);
+        }
+
+		else if (url.contains("flickr") && (metablock = doc.select("body").first()) != null){
+			strategy = new FlickrStrategy (doc, url, metablock);
+		}
+		
+		else if ((metablock = doc.select("[itemtype=http://schema.org/Restaurant]").first()) != null) {
             
         }
+		
         return strategy;
     }
 
