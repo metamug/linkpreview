@@ -21,9 +21,9 @@ import java.util.HashMap;
 public class ProductMetaStrategy extends WebMetaStrategy {
 
     Element productBlock;
-    HashMap<String, HashMap> csk = new HashMap<String, HashMap>();
-    HashMap<String, String> flipkart = new HashMap<String, String>();
-    HashMap<String, String> amazon = new HashMap<String, String>();
+    HashMap<String, HashMap> csk = new HashMap<>();
+    HashMap<String, String> flipkart = new HashMap<>();
+    HashMap<String, String> amazon = new HashMap<>();
 
     String site;
 

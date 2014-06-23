@@ -56,6 +56,8 @@ public class StorageManager {
     public static final String IMAGE_CONTENT_TYPE = "image/png";
     public static final String IMAGE_LOCATION = "https://" + AWS_S3_SITE + ".amazonaws.com/" + AWS_S3_BUCKET + "/" + AWS_S3_FOLDER + "/";
     public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0";
+    private static final int mugshotThumbWidth = 32;
+    private static final int mugshotWidth = 160;
 
     public static byte[] getBytes(String path) {
         byte[] buffer = null;
@@ -136,7 +138,8 @@ public class StorageManager {
         }
     }
 
-    public static String uploadFromURL(String path, int size, int x, int y) {
+    /*Method to generate Profile picture of publishers*/
+    public static String uploadImageFromUrl(String path, int size, int x, int y) {
 
         if (StringUtils.isNotBlank(path)) {
             byte[] buffer = getBytes(path);
@@ -150,18 +153,59 @@ public class StorageManager {
             } catch (IOException ex) {
                 Logger.getLogger(StorageManager.class.getName()).log(Level.SEVERE, null, ex);
             }
+
             //crop image
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             String fileName = "metamug_publisher_"
                     + RandomStringUtils.randomAlphanumeric(16)
                     + "." + IMAGE_TYPE;
 
+            String thumbFileName = "metamug_publisher_"
+                    + RandomStringUtils.randomAlphanumeric(16) + "_32x32"
+                    + "." + IMAGE_TYPE;
+
             upload(getInputStream(
                     ImageManipulation.squareThumb(buffImage, 32), bos),
                     bos.size(),
-                    fileName + "_32x32");
+                    thumbFileName);
 
+            bos = new ByteArrayOutputStream();
             return upload(getInputStream(buffImage, bos),
+                    bos.size(),
+                    fileName);
+        } else {
+            return null;
+        }
+    }
+
+    /*Method to generate Profile picture of publishers*/
+    public static String uploadMugShot(String path) {
+
+        if (StringUtils.isNotBlank(path)) {
+            byte[] buffer = getBytes(path);
+            BufferedImage buffImage = null;
+            try {
+                buffImage = ImageIO.read(new ByteArrayInputStream(buffer));
+            } catch (IOException ex) {
+                Logger.getLogger(StorageManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            //crop image
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            String fileName = "metamug_publisher_"
+                    + RandomStringUtils.randomAlphanumeric(16)
+                    + "." + IMAGE_TYPE;
+
+            String thumbFileName = "metamug_publisher_"
+                    + RandomStringUtils.randomAlphanumeric(16) + "_32x32"
+                    + "." + IMAGE_TYPE;
+
+            upload(getInputStream(ImageManipulation.squareThumb(buffImage, mugshotThumbWidth), bos),
+                    bos.size(),
+                    thumbFileName);
+
+            bos = new ByteArrayOutputStream();
+            return upload(getInputStream(ImageManipulation.squareThumb(buffImage, mugshotWidth), bos),
                     bos.size(),
                     fileName);
         } else {
