@@ -64,4 +64,9 @@ public class MetaScrapperUtil {
             return host;
         }
     }
+
+    public static String extractString(String x)
+    {
+        return " ";
+    }
 }

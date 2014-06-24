@@ -73,6 +73,8 @@ public class MetaImage {
 
     @Override
     public String toString() {
-        return "com.metamug.dao2.ImageMap[ imageId=" + id + " ]";
+//        return "com.metamug.dao2.ImageMap[ imageId=" + id + " ]";
+        return url;
     }
+
 }

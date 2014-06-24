@@ -56,11 +56,13 @@ public class MetaDataFactoryTest {
 
         /*The following test data will be generated from an external file in future*/
         List<String> testData = new ArrayList<>();
-        testData.add("http://www.flipkart.com/moto-e/p/itmdvuwsybgnbtha?pid=MOBDVHC6XKKPZ3GZ&otracker=hp_mod_electronics_bestseller_prd_img");
-        testData.add("http://www.flipkart.com/htc-desire-210/p/itmdvzg8bnph9xja?pid=MOBDVZ6TDYZCKRDC&icmpid=reco_pp_same_mobile_1&ppid=MOBDVHC6XKKPZ3GZ");
-        testData.add("http://www.flipkart.com/apple-16gb-ipad-2-wi-fi/p/itmdfyjgphytdyfe?pid=TABDEWZ3Q9PRYFZH&srno=b_1&ref=338cc5dd-cd83-41f4-bd97-c63f95373622");
-        //testData.add("http://www.amazon.in/gp/product/0984756302/ref=s9_simh_gw_p14_d1_i3?pf_rd_m=A1VBAL9TL5WCBF&pf_rd_s=center-2&pf_rd_r=1365DR4RT60MNYXBNC97&pf_rd_t=101&pf_rd_p=402519107&pf_rd_i=1320006031");
-        testData.add("http://www.amazon.in/gp/product/0981770371/ref=s9_simh_gw_p14_d3_i1?pf_rd_m=A1VBAL9TL5WCBF&pf_rd_s=center-2&pf_rd_r=1W1G1M2R4VGWVAR1K067&pf_rd_t=101&pf_rd_p=402519107&pf_rd_i=1320006031");
+//        testData.add("http://www.flipkart.com/moto-e/p/itmdvuwsybgnbtha?pid=MOBDVHC6XKKPZ3GZ&otracker=hp_mod_electronics_bestseller_prd_img");
+//        testData.add("http://www.flipkart.com/htc-desire-210/p/itmdvzg8bnph9xja?pid=MOBDVZ6TDYZCKRDC&icmpid=reco_pp_same_mobile_1&ppid=MOBDVHC6XKKPZ3GZ");
+//        testData.add("http://www.flipkart.com/apple-16gb-ipad-2-wi-fi/p/itmdfyjgphytdyfe?pid=TABDEWZ3Q9PRYFZH&srno=b_1&ref=338cc5dd-cd83-41f4-bd97-c63f95373622");
+//        testData.add("http://www.amazon.in/gp/product/0981770371/ref=s9_simh_gw_p14_d3_i1?pf_rd_m=A1VBAL9TL5WCBF&pf_rd_s=center-2&pf_rd_r=1W1G1M2R4VGWVAR1K067&pf_rd_t=101&pf_rd_p=402519107&pf_rd_i=1320006031");
+
+        testData.add("http://www.snapdeal.com/product/samsung-galaxy-s5-gold/435578567");
+
         for (String url : testData) {
             ProductMetaData p = (ProductMetaData) MetaDataFactory.create(url);
             System.out.println("===== Product Metadata =====");
@@ -76,6 +78,7 @@ public class MetaDataFactoryTest {
             }
             System.out.println("(" + p.getRatingValue() + ")");
             System.out.println("Product Review Count: " + p.getReviewCount());
+            System.out.println("Thumnnail src: " + p.getThumbnail().toString());
         }
     }
 
