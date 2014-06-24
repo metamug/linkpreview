@@ -157,11 +157,11 @@ public class StorageManager {
             //crop image
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             String fileName = "metamug_publisher_"
-                    + RandomStringUtils.randomAlphanumeric(16)
+                    + RandomStringUtils.randomAlphanumeric(32)
                     + "." + IMAGE_TYPE;
 
             String thumbFileName = "metamug_publisher_"
-                    + RandomStringUtils.randomAlphanumeric(16) + "_32x32"
+                    + RandomStringUtils.randomAlphanumeric(32) + "_32x32"
                     + "." + IMAGE_TYPE;
 
             upload(getInputStream(
@@ -193,13 +193,14 @@ public class StorageManager {
             //crop image
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             String fileName = "metamug_publisher_"
-                    + RandomStringUtils.randomAlphanumeric(16)
+                    + RandomStringUtils.randomAlphanumeric(32)
                     + "." + IMAGE_TYPE;
 
             String thumbFileName = "metamug_publisher_"
-                    + RandomStringUtils.randomAlphanumeric(16) + "_32x32"
+                    + RandomStringUtils.randomAlphanumeric(32) + "_32x32"
                     + "." + IMAGE_TYPE;
 
+            
             upload(getInputStream(ImageManipulation.squareThumb(buffImage, mugshotThumbWidth), bos),
                     bos.size(),
                     thumbFileName);
