@@ -24,7 +24,7 @@ public class ProductMetaStrategy extends WebMetaStrategy {
     HashMap<String, HashMap> csk = new HashMap<>();
     HashMap<String, String> flipkart = new HashMap<>();
     HashMap<String, String> amazon = new HashMap<>();
-
+    HashMap<String, String> olx = new HashMap<>();
     String site;
 
     public ProductMetaStrategy(Document doc, String url, Element metablock) {
@@ -51,6 +51,9 @@ public class ProductMetaStrategy extends WebMetaStrategy {
         amazon.put("reviewCount", "");
         amazon.put("thumbnail",getThumbnail("td#prodImageCell > a"));
         csk.put("amazon.in",amazon);
+
+
+
     }
 
 
@@ -100,6 +103,19 @@ public class ProductMetaStrategy extends WebMetaStrategy {
             meta.setThumbnail((String) csk.get(site).get("thumbnail"));
         }
 
+        if(site.equals("amazon.in")){
+            String b = MetaExtract.getFirstAttributeValue(productBlock, "span.swSprite", "title");
+            b = b.substring(0,b.indexOf(" "));
+            meta.setRatingValue(Float.parseFloat(b));
+
+
+            String c = MetaExtract.getFirstText(productBlock, "span.asinReviewsSummary + a");
+            c = c.substring(0, c.indexOf(" "));
+            meta.setReviewCount(Integer.parseInt(c));
+
+            meta.setRatingCount(Integer.parseInt(c));
+        }
+
         return meta;
     }
 
@@ -115,7 +131,7 @@ public class ProductMetaStrategy extends WebMetaStrategy {
             metaElement = metaElement.select("img").first();
             thumbURL = metaElement.absUrl("src");
         }
-        System.out.println(thumbURL);
+//        System.out.println(thumbURL);
 
         return thumbURL;
     }
