@@ -14,9 +14,8 @@ import org.jsoup.select.Elements;
  *
  * @author deepak if (url.contains("wikipedia.org/wiki/")) { }
  */
-public class WikipediaMetaStrategy extends WebMetaStrategy 
+public class WikipediaMetaStrategy extends WebMetaStrategy {
 
-{
     Element metablock;
 
     public WikipediaMetaStrategy(Document doc, String url, Element metablock) {
@@ -71,7 +70,9 @@ public class WikipediaMetaStrategy extends WebMetaStrategy
         if (metaElements == null || metaElements.isEmpty()) {
             metaElements = metablock.select(".thumbinner");
             metaElement = metaElements.first();
-            metaElements = metaElement.select("a.image>img");
+            if (!metaElements.isEmpty()) {
+                metaElements = metaElement.select("a.image>img");
+            }
         }
 
         if (metaElements != null && !metaElements.isEmpty()) {

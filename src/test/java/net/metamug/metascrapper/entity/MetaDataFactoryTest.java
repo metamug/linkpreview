@@ -51,7 +51,7 @@ public class MetaDataFactoryTest {
 //        System.out.println(result.getThumbnail().getUrl());
     }
 
-    @Test
+//    @Test
     public void testProduct() {
 
         /*The following test data will be generated from an external file in future*/
@@ -85,6 +85,21 @@ public class MetaDataFactoryTest {
         System.out.println(i.getTitle());
         System.out.println(i.getAuthor());
 //        System.out.println(i.getViews());
+    }
+
+    @Test
+    public void testWikipedia() {
+        /*The following test data will be generated from an external file in future*/
+        List<String> testData = new ArrayList<>();
+        testData.add("http://en.wikipedia.org/wiki/Scraper_site");
+        testData.add("http://en.wikipedia.org/wiki/Quick_Heal");
+        for (String url : testData) {
+            WebMetaData p = (WebMetaData) MetaDataFactory.create(url);
+            System.out.println("===== Wikipedia Metadata =====");
+            System.out.println("Wikipedia Title: " + p.getTitle());
+            System.out.println("Wikipedia Description: " + p.getDescription());
+            System.out.println("Wikipedia Thumbnail URL: " + p.getThumbnail().getUrl());            
+        }
     }
 
 }
