@@ -88,6 +88,20 @@ public class MetaDataFactoryTest {
     }
 
     @Test
+    public void testWebGeneric() {
+        /*The following test data will be generated from an external file in future*/
+        List<String> testData = new ArrayList<>();
+        testData.add("http://opennews.kzhu.io/map-disputes/?_ga=1.48243875.420098949.1397702661");
+        for (String url : testData) {
+            WebMetaData p = (WebMetaData) MetaDataFactory.create(url);
+            System.out.println("===== Generic Web Metadata =====");
+            System.out.println("Title: " + p.getTitle());
+            System.out.println("Description: " + p.getDescription());
+            System.out.println("Thumbnail URL: " + p.getThumbnail().getUrl());
+        }
+    }
+
+//    @Test
     public void testWikipedia() {
         /*The following test data will be generated from an external file in future*/
         List<String> testData = new ArrayList<>();
@@ -98,7 +112,7 @@ public class MetaDataFactoryTest {
             System.out.println("===== Wikipedia Metadata =====");
             System.out.println("Wikipedia Title: " + p.getTitle());
             System.out.println("Wikipedia Description: " + p.getDescription());
-            System.out.println("Wikipedia Thumbnail URL: " + p.getThumbnail().getUrl());            
+            System.out.println("Wikipedia Thumbnail URL: " + p.getThumbnail().getUrl());
         }
     }
 
