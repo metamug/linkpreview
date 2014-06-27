@@ -92,6 +92,11 @@ public class MetaDataFactory {
             strategy = new ProductMetaStrategy(doc, url, metablock);
         }
 
+        else if (url.contains("snapdeal.com") && (metablock = doc.select("body").first()) != null)
+        {
+            strategy = new ProductMetaStrategy(doc, url, metablock);
+        }
+
 		else if (url.contains("flickr") && (metablock = doc.select("body").first()) != null){
 			strategy = new FlickrStrategy (doc, url, metablock);
 		}

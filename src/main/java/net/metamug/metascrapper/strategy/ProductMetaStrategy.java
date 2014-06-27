@@ -24,6 +24,8 @@ public class ProductMetaStrategy extends WebMetaStrategy {
     HashMap<String, HashMap> csk = new HashMap<>();
     HashMap<String, String> flipkart = new HashMap<>();
     HashMap<String, String> amazon = new HashMap<>();
+    HashMap<String, String> snapdeal = new HashMap<>();
+
 
     String site;
 
@@ -51,6 +53,17 @@ public class ProductMetaStrategy extends WebMetaStrategy {
         amazon.put("reviewCount", "");
         amazon.put("thumbnail",getThumbnail("td#prodImageCell > a"));
         csk.put("amazon.in",amazon);
+
+        snapdeal.put("name","[itemprop=name]");
+//        snapdeal.put("price","[itemprop=price]");
+        snapdeal.put("price","");
+        snapdeal.put("priceCurrency","[itemprop=priceCurrency]");
+        snapdeal.put("ratingCount","");
+        snapdeal.put("ratingValue","");
+        snapdeal.put("reviewCount","");
+        snapdeal.put("thumbnail",getThumbnail("div.product-main-image"));
+        csk.put("snapdeal.com", snapdeal);
+
     }
 
 
@@ -100,6 +113,34 @@ public class ProductMetaStrategy extends WebMetaStrategy {
             meta.setThumbnail((String) csk.get(site).get("thumbnail"));
         }
 
+        if(site.equals("amazon.in")){
+            String b = MetaExtract.getFirstAttributeValue(productBlock, "span.swSprite", "title");
+            b = b.substring(0,b.indexOf(" "));
+            meta.setRatingValue(Float.parseFloat(b));
+
+
+            String c = MetaExtract.getFirstText(productBlock, "span.asinReviewsSummary + a");
+            c = c.substring(0, c.indexOf(" "));
+            meta.setReviewCount(Integer.parseInt(c));
+
+            meta.setRatingCount(Integer.parseInt(c));
+        }
+
+        if(site.contains("snapdeal"))
+        {
+            String b = MetaExtract.getSchemaPropery(productBlock, "div.reviewBar > div.lfloat > div + div > span");
+            meta.setRatingCount(Integer.parseInt(b.substring(0, b.indexOf(" "))));
+
+            meta.setPrice(Double.parseDouble(MetaExtract.getSchemaPropery(productBlock, "[itemprop=price]")));
+
+            b = MetaExtract.getFirstAttributeValue(productBlock, "div.reviewBar > div.lfloat > div", "ratings");
+            meta.setRatingValue(Float.parseFloat(b));
+
+            b = MetaExtract.getSchemaPropery(productBlock, "span.showRatingTooltip");
+            meta.setReviewCount(Integer.parseInt(b.substring(0, b.indexOf(" "))));
+
+        }
+
         return meta;
     }
 
@@ -115,7 +156,7 @@ public class ProductMetaStrategy extends WebMetaStrategy {
             metaElement = metaElement.select("img").first();
             thumbURL = metaElement.absUrl("src");
         }
-        System.out.println(thumbURL);
+//        System.out.println(thumbURL);
 
         return thumbURL;
     }
