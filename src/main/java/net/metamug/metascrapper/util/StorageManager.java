@@ -100,7 +100,7 @@ public class StorageManager {
     }
 
     public static String upload(InputStream inputStream, long fileSize, String fileName) {
-        String publicURL = null;
+        String publicURL;
         //InputStream is = new ByteArrayInputStream(buffer);
         //byte[] buffer = IOUtils.toByteArray(is);
         //ClientConfiguration max retry
@@ -303,7 +303,7 @@ public class StorageManager {
             ImageIO.write(buffImage, IMAGE_TYPE, os);
             is = new ByteArrayInputStream(os.toByteArray());
 
-            System.out.println("Metamug Favicon: " + StorageManager.upload(is, os.size(), fileName));
+            System.out.println("Metamug Favicon: " + upload(is, os.size(), fileName));
             //set id after upload is complete
             im.setId(fileName);
         } catch (IOException ex) {

@@ -91,7 +91,10 @@ public class MetaDataFactoryTest {
     public void testWebGeneric() {
         /*The following test data will be generated from an external file in future*/
         List<String> testData = new ArrayList<>();
+//        testData.add("http://facebook.com/");
+        testData.add("http://venturebeat.com/2014/06/24/how-to-know-if-youre-learning-the-right-programming-language/");
         testData.add("http://opennews.kzhu.io/map-disputes/?_ga=1.48243875.420098949.1397702661");
+
         for (String url : testData) {
             WebMetaData p = (WebMetaData) MetaDataFactory.create(url);
             System.out.println("===== Generic Web Metadata =====");
