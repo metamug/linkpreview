@@ -51,7 +51,7 @@ public class MetaDataFactoryTest {
 //        System.out.println(result.getThumbnail().getUrl());
     }
 
-//    @Test
+    @Test
     public void testProduct() {
 
         /*The following test data will be generated from an external file in future*/
@@ -92,7 +92,7 @@ public class MetaDataFactoryTest {
 //        System.out.println(i.getViews());
     }
 
-    @Test
+//    @Test
     public void testWebGeneric() {
         /*The following test data will be generated from an external file in future*/
         List<String> testData = new ArrayList<>();
