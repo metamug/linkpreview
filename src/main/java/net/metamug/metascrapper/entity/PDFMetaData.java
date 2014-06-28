@@ -10,7 +10,7 @@ import java.util.Date;
  *
  * @author deepak
  */
-class PDFMetaData extends WebMetaData implements MetaData {
+public class PDFMetaData extends WebMetaData implements MetaData {
 
     public int getPages() {
         return pages;

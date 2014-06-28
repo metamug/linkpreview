@@ -4,6 +4,7 @@
  */
 package net.metamug.metascrapper.strategy;
 
+import net.metamug.metascrapper.entity.MetaData;
 import net.metamug.metascrapper.entity.WebMetaData;
 
 /**
@@ -11,5 +12,5 @@ import net.metamug.metascrapper.entity.WebMetaData;
  * @author deepak
  */
 public interface MetaStrategy {
-    public WebMetaData getMeta();
+    public MetaData getMeta();
 }

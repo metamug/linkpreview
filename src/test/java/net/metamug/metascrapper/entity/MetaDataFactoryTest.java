@@ -51,7 +51,7 @@ public class MetaDataFactoryTest {
 //        System.out.println(result.getThumbnail().getUrl());
     }
 
-    @Test
+//    @Test
     public void testProduct() {
 
         /*The following test data will be generated from an external file in future*/
@@ -121,6 +121,34 @@ public class MetaDataFactoryTest {
             System.out.println("Wikipedia Title: " + p.getTitle());
             System.out.println("Wikipedia Description: " + p.getDescription());
             System.out.println("Wikipedia Thumbnail URL: " + p.getThumbnail().getUrl());
+        }
+    }
+
+    @Test
+    public void testAudio() {
+        /*The following test data will be generated from an external file in future*/
+        List<String> testData = new ArrayList<>();
+        testData.add("http://newmuz.net/uploads/files/1339874603_maroon5-onemorenight.mp3");
+        for (String url : testData) {
+            AudioMetaData p = (AudioMetaData) MetaDataFactory.create(url);
+            System.out.println("===== Audio Metadata =====");
+            System.out.println("Audio Title: " + p.getTitle());
+            System.out.println("Audio Description: " + p.getDescription());
+            System.out.println("Audio Thumbnail URL: " + p.getThumbnail().getUrl());
+        }
+    }
+    
+    @Test
+    public void testPDF() {
+        /*The following test data will be generated from an external file in future*/
+        List<String> testData = new ArrayList<>();
+        testData.add("http://www.dadsgarage.com/~/media/Files/example.ashx");
+        for (String url : testData) {
+            AudioMetaData p = (AudioMetaData) MetaDataFactory.create(url);
+            System.out.println("===== PDF Metadata =====");
+            System.out.println("PDF Title: " + p.getTitle());
+            System.out.println("PDF Description: " + p.getDescription());
+            System.out.println("Audio Thumbnail URL: " + p.getThumbnail().getUrl());
         }
     }
 

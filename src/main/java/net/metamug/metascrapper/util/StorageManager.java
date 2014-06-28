@@ -127,6 +127,10 @@ public class StorageManager {
 
     }
 
+    public static String upload(BufferedImage image) {
+        return null;
+    }
+
     public static String uploadFromURL(String path) {
         if (StringUtils.isNotBlank(path)) {
             byte[] buffer = getBytes(path);
@@ -200,7 +204,6 @@ public class StorageManager {
                     + RandomStringUtils.randomAlphanumeric(32) + "_32x32"
                     + "." + IMAGE_TYPE;
 
-            
             upload(getInputStream(ImageManipulation.squareThumb(buffImage, mugshotThumbWidth), bos),
                     bos.size(),
                     thumbFileName);
