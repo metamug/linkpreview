@@ -99,7 +99,7 @@ public class MetaDataFactoryTest {
 //        testData.add("http://facebook.com/");
         testData.add("http://venturebeat.com/2014/06/24/how-to-know-if-youre-learning-the-right-programming-language/");
         testData.add("http://opennews.kzhu.io/map-disputes/?_ga=1.48243875.420098949.1397702661");
-
+        testData.add("http://snapdeal.com");
         for (String url : testData) {
             WebMetaData p = (WebMetaData) MetaDataFactory.create(url);
             System.out.println("===== Generic Web Metadata =====");
@@ -137,7 +137,7 @@ public class MetaDataFactoryTest {
             System.out.println("Audio Thumbnail URL: " + p.getThumbnail().getUrl());
         }
     }
-    
+
     @Test
     public void testPDF() {
         /*The following test data will be generated from an external file in future*/
