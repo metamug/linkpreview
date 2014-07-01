@@ -5,11 +5,7 @@
 package net.metamug.metascrapper.entity;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import net.metamug.metascrapper.strategy.*;
-
 import static net.metamug.metascrapper.util.MetaScrapperUtil.getHost;
 import net.metamug.metascrapper.util.RobotsTxt;
 import net.metamug.metascrapper.util.StorageManager;

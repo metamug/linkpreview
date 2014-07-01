@@ -196,12 +196,13 @@ public class StorageManager {
 
             //crop image
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            String randomString = RandomStringUtils.randomAlphanumeric(32);
             String fileName = "metamug_publisher_"
-                    + RandomStringUtils.randomAlphanumeric(32)
+                    + randomString
                     + "." + IMAGE_TYPE;
 
             String thumbFileName = "metamug_publisher_"
-                    + RandomStringUtils.randomAlphanumeric(32) + "_32x32"
+                    + randomString + "_32x32"
                     + "." + IMAGE_TYPE;
 
             upload(getInputStream(ImageManipulation.squareThumb(buffImage, mugshotThumbWidth), bos),
@@ -327,7 +328,7 @@ public class StorageManager {
             //contentType = response.contentType();
 
             buffImage = ImageIO.read(new ByteArrayInputStream(buff));
-            fileName = "metamug_user_pic_"
+            fileName = "metamug_publisher_"
                     + RandomStringUtils.randomAlphanumeric(12)
                     + "_" + RandomStringUtils.randomAlphanumeric(6)
                     + "." + IMAGE_TYPE;
@@ -343,6 +344,7 @@ public class StorageManager {
             is = new ByteArrayInputStream(os.toByteArray());
 
             System.out.println("Metamug Publiser Image: " + StorageManager.upload(is, os.size(), fileName));
+            System.out.println("Metamug Publiser Image 32x32: " + StorageManager.upload(is, os.size(), "32x32_"+fileName));
             //set id after upload is complete
             im.setId(fileName);
         } catch (IOException ex) {
