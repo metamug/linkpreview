@@ -1,5 +1,7 @@
 package net.metamug.metascrapper.entity;
 
+import java.util.Objects;
+
 /**
  *
  * @author deepak
@@ -9,72 +11,79 @@ public class MetaImage {
     private static final long serialVersionUID = 1L;
     private String id;
     private String url;
-    private Short width;
-    private Short height;
-    
+    private int width;
+    private int height;
+
     public MetaImage() {
+        this.id = "0";
     }
-    
-    public MetaImage(String imageId) {
-        this.id = imageId;
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 71 * hash + Objects.hashCode(this.id);
+        hash = 71 * hash + Objects.hashCode(this.url);
+        hash = 71 * hash + this.width;
+        hash = 71 * hash + this.height;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MetaImage other = (MetaImage) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.url, other.url)) {
+            return false;
+        }
+        if (this.width != other.width) {
+            return false;
+        }
+        if (this.height != other.height) {
+            return false;
+        }
+        return true;
     }
 
     public String getId() {
         return id;
     }
 
-    public void setId(String imageId) {
-        this.id = imageId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String imageUrl) {
-        this.url = imageUrl;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public Short getWidth() {
+    public int getWidth() {
         return width;
     }
 
-    public void setWidth(Short width) {
+    public void setWidth(int width) {
         this.width = width;
     }
 
-    public Short getHeight() {
+    public int getHeight() {
         return height;
     }
 
-    public void setHeight(Short height) {
+    public void setHeight(int height) {
         this.height = height;
     }
     
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MetaImage)) {
-            return false;
-        }
-        MetaImage other = (MetaImage) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-//        return "com.metamug.dao2.ImageMap[ imageId=" + id + " ]";
-        return url;
-    }
 
 }

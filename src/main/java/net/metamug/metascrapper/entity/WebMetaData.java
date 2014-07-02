@@ -82,7 +82,7 @@ public class WebMetaData implements MetaData {
     }
     
     public void setDomain(String faviconURL) {
-        this.domain = new MetaImage("0");
+        this.domain = new MetaImage();
         this.domain.setUrl(faviconURL);
     }
 
@@ -106,10 +106,6 @@ public class WebMetaData implements MetaData {
 
     public void setThumbnail(String thumbnailUrl) {
         MetaImage im = new MetaImage();
-        im = new MetaImage();
-        //im.setId(RandomStringUtils.randomAlphanumeric(20) + "_" + RandomStringUtils.randomAlphanumeric(20));
-//        im.setId("00000000000000000000" + "_" + "00000000000000000000");
-        im.setId("0");
         im.setUrl(thumbnailUrl);
         this.thumbnail = im;
     }

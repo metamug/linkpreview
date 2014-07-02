@@ -5,6 +5,7 @@
  */
 package net.metamug.metascrapper.util;
 
+import net.metamug.metascrapper.entity.MetaImage;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -40,8 +41,54 @@ public class ImageTest {
     @Test
     public void testProfilePicture() {
         String testImage = "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png";
-        String result = StorageManager.uploadMugShot(testImage);
-        assertNotNull(result);
-        System.out.println(result);
+        String imageId = StorageManager.uploadPublisherPicture(testImage);
+        assertNotNull(imageId);
+        String uploadedImageURL = StorageManager.IMAGE_SITE + StorageManager.PUBLISHER_MUGSHOT_FOLDER
+                + imageId;
+        System.out.println(uploadedImageURL);
+        uploadedImageURL = StorageManager.IMAGE_SITE + StorageManager.PUBLISHER_MUGSHOT_TILE_FOLDER
+                + imageId;
+        System.out.println(uploadedImageURL);
+    }
+
+    @Test
+    public void testEditProfilePicture() {
+        String testImage = "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png";
+        MetaImage mi = new MetaImage();
+        mi.setUrl(testImage);
+        int size=160;
+        mi.setHeight(size);
+        mi.setWidth(size);
+        String imageId = StorageManager.uploadPublisherImage(mi, 92, 21);
+        assertNotNull(imageId);
+        String uploadedImageURL = StorageManager.IMAGE_SITE + StorageManager.PUBLISHER_MUGSHOT_FOLDER
+                + imageId;
+        System.out.println(uploadedImageURL);
+        uploadedImageURL = StorageManager.IMAGE_SITE + StorageManager.PUBLISHER_MUGSHOT_TILE_FOLDER
+                + imageId;
+        System.out.println(uploadedImageURL);
+    }
+
+    @Test
+    public void testPostImage() {
+        String testImage = "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png";
+
+        MetaImage mi = new MetaImage();
+        mi.setUrl(testImage);
+
+        String uploadedImageURL = StorageManager.IMAGE_SITE + StorageManager.POST_MUGSHOT_FOLDER
+                + StorageManager.uploadPostImage(mi).getId();
+        assertNotNull(uploadedImageURL);
+        System.out.println(uploadedImageURL);
+    }
+
+    @Test
+    public void testFavicon() {
+        String testImage = "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png";
+        MetaImage image = StorageManager.uploadFavicon(testImage);
+        String uploadedImageURL = StorageManager.IMAGE_SITE + StorageManager.FAVICON_IMAGE_FOLDER
+                + image.getId();
+        assertNotNull(uploadedImageURL);
+        System.out.println(uploadedImageURL);
     }
 }
