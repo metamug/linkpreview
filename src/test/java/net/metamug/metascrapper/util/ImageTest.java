@@ -5,7 +5,11 @@
  */
 package net.metamug.metascrapper.util;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import net.metamug.metascrapper.entity.MetaImage;
+import org.jsoup.Connection;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -38,7 +42,7 @@ public class ImageTest {
     public void tearDown() {
     }
 
-    @Test
+//    @Test
     public void testProfilePicture() {
         String testImage = "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png";
         String imageId = StorageManager.uploadPublisherPicture(testImage);
@@ -51,12 +55,12 @@ public class ImageTest {
         System.out.println(uploadedImageURL);
     }
 
-    @Test
+//    @Test
     public void testEditProfilePicture() {
         String testImage = "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png";
         MetaImage mi = new MetaImage();
         mi.setUrl(testImage);
-        int size=160;
+        int size = 160;
         mi.setHeight(size);
         mi.setWidth(size);
         String imageId = StorageManager.uploadPublisherImage(mi, 92, 21);
@@ -69,7 +73,7 @@ public class ImageTest {
         System.out.println(uploadedImageURL);
     }
 
-    @Test
+//    @Test
     public void testPostImage() {
         String testImage = "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png";
 
@@ -82,7 +86,7 @@ public class ImageTest {
         System.out.println(uploadedImageURL);
     }
 
-    @Test
+//    @Test
     public void testFavicon() {
         String testImage = "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png";
         MetaImage image = StorageManager.uploadFavicon(testImage);
@@ -90,5 +94,12 @@ public class ImageTest {
                 + image.getId();
         assertNotNull(uploadedImageURL);
         System.out.println(uploadedImageURL);
+    }
+
+    @Test
+    public void testDefaultFavicon() {
+        byte[] buff;
+        buff = StorageManager.getBytes("https://s3-ap-southeast-1.amazonaws.com/metamug-cdn/images-2/metamug_favicon_gbusYYU8H68O_lHefbR.png");
+        assert (buff.length != 516);
     }
 }

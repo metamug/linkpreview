@@ -20,12 +20,12 @@ import org.jsoup.nodes.Element;
  * @author deepak
  */
 public class MetaDataFactory {
-    
+
     public static WebMetaData create(String url) {
-        
-        RobotsTxt robo = new RobotsTxt(url);
-        
-        if (robo.canAccess(url)) {
+
+//        RobotsTxt robo = new RobotsTxt(url);
+//        if (robo.canAccess(url)) {
+        if (true) {
             //The factory must create the appropriate strategy
             Response response = StorageManager.getResponse(url);
             if (response == null || response.contentType() == null) {
@@ -49,7 +49,7 @@ public class MetaDataFactory {
                     WebMetaStrategy metaFinder;
                     metaFinder = getMetaStrategy(document, url);
                     return metaFinder.getMeta();
-                    
+
                 } catch (IOException ex) {
                     //keeping level severe halts execution
                     //Logger.getLogger(WebMetaStrategy.class.getName()).log(Level.INFO, null, ex);
@@ -64,9 +64,9 @@ public class MetaDataFactory {
             return new WebMetaData("Error", "http://metamug.com/assets/img/symbols/alert-triangle-grey.png", "text/html",
                     "Unable to reach the page " + url, "http://metamug.com/assets/img/symbols/alert-triangle-grey.png");
         }
-        
+
     }
-    
+
     public static WebMetaStrategy getMetaStrategy(Document doc, String url) {
         WebMetaStrategy strategy = new WebMetaStrategy(doc, url);
         Element metablock;
@@ -82,11 +82,11 @@ public class MetaDataFactory {
             strategy = new ProductMetaStrategy(doc, url, metablock);
         } else if (url.contains("flickr") && (metablock = doc.select("body").first()) != null) {
             strategy = new FlickrStrategy(doc, url, metablock);
-        }  else if ((metablock = doc.select("[itemtype=http://schema.org/Restaurant]").first()) != null) {
-            
+        } else if ((metablock = doc.select("[itemtype=http://schema.org/Restaurant]").first()) != null) {
+
         }
-        
+
         return strategy;
     }
-    
+
 }

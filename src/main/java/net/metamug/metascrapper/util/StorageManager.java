@@ -121,6 +121,9 @@ public class StorageManager {
 
     /**
      * Upload Post Images Stored in database Hence returns a MetaImage Object
+     *
+     * @param im
+     * @return
      */
     public static MetaImage uploadPostImage(MetaImage im) {
         try {
@@ -197,6 +200,14 @@ public class StorageManager {
             Response response = StorageManager.getResponse("https://plus.google.com/_/favicon?domain=" + im.getUrl());
 //            Response response = StorageManager.getResponse("http://www.google.com/s2/favicons?domain=" + im.getUrl());
             buff = response.bodyAsBytes();
+
+//            if (buff.length == 516) {
+//                im.setWidth(16);
+//                im.setHeight(16);
+//                im.setId(fileName);
+//                System.out.println("Metamug Favicon: " + upload(buffImage, FAVICON_IMAGE_FOLDER + fileName));
+//                return im;
+//            }
             //contentType = response.contentType();
 
             buffImage = ImageIO.read(new ByteArrayInputStream(buff));
@@ -224,7 +235,7 @@ public class StorageManager {
             im.setWidth((short) buffImage.getWidth());
             im.setHeight((short) buffImage.getHeight());
             im.setId(fileName);
-            System.out.println("Metamug Favicon: " + upload(buffImage, FAVICON_IMAGE_FOLDER + "/16/" + fileName));
+            System.out.println("Metamug Favicon: " + upload(buffImage, FAVICON_IMAGE_FOLDER + fileName));
             return im;
         } catch (IOException ex) {
             Logger.getLogger(StorageManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -401,8 +412,8 @@ public class StorageManager {
     public static final String OTHER_IMAGE_FOLDER = "images/others/";
 //    public static final String IMAGE_LOCATION = "https://" + AWS_S3_SITE + ".amazonaws.com/" + AWS_S3_BUCKET + "/" + AWS_S3_FOLDER + "/";
     public static final String IMAGE_SITE = "http://metamug.net/";
-    public static final String PUBLISHER_MUGSHOT_TILE_FOLDER = "images/pubisher/32/";
-    public static final String PUBLISHER_MUGSHOT_FOLDER = "images/pubisher/160/";
+    public static final String PUBLISHER_MUGSHOT_TILE_FOLDER = "images/publisher/32/";
+    public static final String PUBLISHER_MUGSHOT_FOLDER = "images/publisher/160/";
     public static final String POST_LARGER_MUGSHOT_FOLDER = "images/post/400/";
     public static final String POST_LARGE_MUGSHOT_FOLDER = "images/post/340/";
     public static final String POST_SMALL_MUGSHOT_FOLDER = "images/post/150/";
