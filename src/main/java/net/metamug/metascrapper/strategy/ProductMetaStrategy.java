@@ -110,7 +110,7 @@ public class ProductMetaStrategy extends WebMetaStrategy {
 
         if(!(a = (String) csk.get(site).get("thumbnail")).isEmpty())
         {
-            meta.setThumbnail((String) csk.get(site).get("thumbnail"));
+            meta.setPicture((String) csk.get(site).get("thumbnail"));
         }
 
         if(site.equals("amazon.in")){

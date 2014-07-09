@@ -1,12 +1,9 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * 
  */
 package net.metamug.metascrapper.entity;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-
-//flipkart,snapdeal
 
 /**
  *
@@ -15,29 +12,28 @@ import org.apache.commons.lang3.StringEscapeUtils;
 public class WebMetaData implements MetaData {
 
     private String title;
-    private MetaImage domain;
+    private String domain;
     private String type;
     private String description;
-    private MetaImage thumbnail;
-    
-    
+    private String picture;
+
     public WebMetaData() {
     }
-    
+
+    public WebMetaData(String title, String domain, String type, String description, String picture) {
+        this.title = title;
+        this.domain = domain;
+        this.type = type;
+        this.description = description;
+        this.picture = picture;
+    }
+
     public WebMetaData(WebMetaData webMetaData) {
         this.title = webMetaData.title;
         this.description = webMetaData.description;
-        this.thumbnail = webMetaData.thumbnail;
+        this.picture = webMetaData.picture;
         this.type = webMetaData.type;
         this.domain = webMetaData.domain;
-    }
-
-    public WebMetaData(String title, String faviconURL, String type, String description, String thumbnail) {
-        this.title = title;
-        setDomain(faviconURL);
-        this.type = type;
-        this.description = description;
-        setThumbnail(thumbnail);
     }
 
     @Override
@@ -48,42 +44,35 @@ public class WebMetaData implements MetaData {
         metaString += "\nFaviconURL: " + domain;
         metaString += "\nType: " + type;
         metaString += "\nDescription: " + description;
-        metaString += "\nThumbnailURL: " + thumbnail.getUrl();
+//        for (String p : pictures) {
+        metaString += "\nPictures: " + picture;
+//        }
 
         return metaString;
     }
 
-    /**
-     * @return the title
-     */
     public String getTitle() {
         return title;
     }
 
-    /**
-     * @param title the title to set
-     */
     public void setTitle(String title) {
-        this.title = StringEscapeUtils.escapeHtml4(title);
+        this.title = title;
     }
 
-    /**
-     * @return the faviconURL
-     */
-    public MetaImage getDomain() {
+    public String getDomain() {
         return domain;
     }
 
-    /**
-     * @param faviconURL the faviconURL to set
-     */
-    public void setDomain(MetaImage faviconURL) {
-        this.domain = faviconURL;
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
-    
-    public void setDomain(String faviconURL) {
-        this.domain = new MetaImage();
-        this.domain.setUrl(faviconURL);
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     /**
@@ -98,20 +87,6 @@ public class WebMetaData implements MetaData {
      */
     public void setDescription(String description) {
         this.description = StringEscapeUtils.escapeHtml4(description);
-    }
-
-    public MetaImage getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(String thumbnailUrl) {
-        MetaImage im = new MetaImage();
-        im.setUrl(thumbnailUrl);
-        this.thumbnail = im;
-    }
-    
-    public void setThumbnail(MetaImage im) {
-        this.thumbnail = im;
     }
 
     /**
@@ -129,6 +104,3 @@ public class WebMetaData implements MetaData {
     }
 
 }
-
-
-

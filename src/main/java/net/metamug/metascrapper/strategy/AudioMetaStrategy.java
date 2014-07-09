@@ -27,7 +27,7 @@ import org.jsoup.nodes.Document;
  *
  * @author deepak
  */
-public class AudioMetaStrategy{
+public class AudioMetaStrategy {
 
     Mp3File song;
 
@@ -39,22 +39,21 @@ public class AudioMetaStrategy{
         }
     }
 
-    
     public WebMetaData getMeta() throws IOException {
         AudioMetaData metadata = new AudioMetaData();
         if (song.hasId3v2Tag()) {
 
             ID3v2 id3v2tag = song.getId3v2Tag();
             byte[] imageData = id3v2tag.getAlbumImage();
-            MetaImage albumArt = new MetaImage();
-            String fileName = "metamug_audio_art" + RandomStringUtils.random(32) + "_" + RandomStringUtils.random(20) + ".png";
-            albumArt.setId(fileName);
-            albumArt.setUrl(StorageManager.upload(new ByteArrayInputStream(imageData), imageData.length, fileName));
+//            MetaImage albumArt = new MetaImage();
+//            String fileName = "metamug_audio_art" + RandomStringUtils.random(32) + "_" + RandomStringUtils.random(20) + ".png";
+//            albumArt.setId(fileName);
+//            albumArt.setUrl(StorageManager.upload(new ByteArrayInputStream(imageData), imageData.length, fileName));
             //converting the bytes to an image
             BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageData));
-            albumArt.setHeight((short) img.getHeight());
-            albumArt.setWidth((short) img.getWidth());
-            metadata.setThumbnail(albumArt);
+//            albumArt.setHeight((short) img.getHeight());
+//            albumArt.setWidth((short) img.getWidth());
+            metadata.setPicture(StorageManager.upload(img));
 
             metadata.setTitle(id3v2tag.getTitle());
             metadata.setAlbum(id3v2tag.getAlbum());

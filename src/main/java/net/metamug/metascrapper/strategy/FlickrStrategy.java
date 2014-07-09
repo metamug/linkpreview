@@ -33,7 +33,7 @@ public class FlickrStrategy extends WebMetaStrategy{
         ImageMetaData meta = new ImageMetaData(super.getMeta());
         
         meta.setTitle(getTitle());
-        meta.setThumbnail(getThumbnail());
+        meta.setPicture(getThumbnail());
         meta.setAuthor(MetaExtract.getFirstText(metablock, "a.owner-name"));
 //        meta.setViews(Integer.parseInt(metablock.select("div.view-count > span.view-count-label").first().text()));
 //        System.out.println(metablock.select("div.view-count > span.view-count-label").first().text());

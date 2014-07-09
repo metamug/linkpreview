@@ -30,7 +30,7 @@ public class StackoverflowStrategy extends WebMetaStrategy {
         meta.setDomain(getHost(url));
         meta.setType("text/html");
         meta.setDescription(getStackoverflowD());
-        meta.setThumbnail(getStackoverflowT());
+        meta.setPicture(getStackoverflowT());
         return meta;
     }
 

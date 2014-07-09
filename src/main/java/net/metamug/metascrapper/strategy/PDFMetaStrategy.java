@@ -54,7 +54,7 @@ public class PDFMetaStrategy {
 
         meta.setAuthor(info.getAuthor());
         meta.setPages(document.getNumberOfPages());
-        meta.setThumbnail(getImageURL());
+        meta.setPicture(getImageURL());
         meta.setType("pdf");
         meta.setDateCreated(info.getCreationDate().getTime());
         meta.setDomain("http://metamug.com/assets/img/symbols/pdf_symbol.png");

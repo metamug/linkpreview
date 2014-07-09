@@ -4,6 +4,8 @@
  */
 package net.metamug.metascrapper.util;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -85,5 +87,11 @@ public class MetaExtract {
         } else {
             return null;
         }
+    }
+    
+    public static String getDomainName(String url) throws URISyntaxException {
+        URI uri = new URI(url);
+        String domain = uri.getHost();
+        return domain.startsWith("www.") ? domain.substring(4) : domain;
     }
 }

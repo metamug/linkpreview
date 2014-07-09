@@ -53,7 +53,7 @@ public class WebMetaStrategy implements MetaStrategy {
         meta.setTitle(getTitle());
         meta.setDomain(getHost(url));
         meta.setType("text/html");
-        meta.setThumbnail(getThumbnailURL());
+        meta.setPicture(getThumbnailURL());
         meta.setDescription(getDescription());
 
         return meta;

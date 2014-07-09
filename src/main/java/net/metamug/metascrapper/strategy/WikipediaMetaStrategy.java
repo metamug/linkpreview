@@ -31,7 +31,7 @@ public class WikipediaMetaStrategy extends WebMetaStrategy {
         meta.setDomain(getHost(url));
         meta.setType("text/html");
         meta.setDescription(getWikipediaDescription());
-        meta.setThumbnail(getWikipediaThumbnail());
+        meta.setPicture(getWikipediaThumbnail());
         return meta;
     }
 
