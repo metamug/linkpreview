@@ -8,7 +8,7 @@ import java.io.IOException;
 import net.metamug.metascrapper.strategy.*;
 import static net.metamug.metascrapper.util.MetaScrapperUtil.getHost;
 import net.metamug.metascrapper.util.RobotsTxt;
-import net.metamug.metascrapper.util.StorageManager;
+import net.metamug.metascrapper.util.DownloadManager;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.jsoup.Connection.Response;
@@ -27,7 +27,7 @@ public class MetaDataFactory {
 //        if (robo.canAccess(url)) {
         if (true) {
             //The factory must create the appropriate strategy
-            Response response = StorageManager.getResponse(url);
+            Response response = DownloadManager.getResponse(url);
             if (response == null || response.contentType() == null) {
                 return new WebMetaData("Error", "http://metamug.com/assets/img/symbols/alert-triangle-grey.png", "text/html", "Unable to reach the page " + url, "http://metamug.com/assets/img/symbols/alert-triangle-grey.png");
             }

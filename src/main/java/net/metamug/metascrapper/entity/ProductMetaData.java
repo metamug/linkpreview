@@ -4,19 +4,29 @@
  */
 package net.metamug.metascrapper.entity;
 
+import com.google.gson.annotations.Expose;
+
 
 /**
  *
  * @author deepak
  */
 public class ProductMetaData extends WebMetaData implements MetaData {
+    @Expose
     String name;
+    @Expose
     float ratingValue;
+    @Expose
     int ratingCount;
+    @Expose
     int reviewCount;
+    @Expose
     double price;
+    @Expose
     String priceCurrency; //currency  
+    @Expose
     String brand;
+    @Expose
     String condition;
 
     public ProductMetaData() {
@@ -98,6 +108,8 @@ public class ProductMetaData extends WebMetaData implements MetaData {
     
 }
 class Offer {
+    @Expose
     double price;
+    @Expose
     String priceCurrency; //currency  
 }

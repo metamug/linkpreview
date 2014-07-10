@@ -105,7 +105,7 @@ public class Siblinks {
     public static List<String> getOutLinks(String url) {
         List<String> list = new ArrayList();
         try {
-            Document doc = StorageManager.getResponse(url).parse();
+            Document doc = DownloadManager.getResponse(url).parse();
             Elements links = doc.select("a[href]");
             for (Element link : links) { //links
                 String s = link.attr("abs:href");
@@ -123,7 +123,7 @@ public class Siblinks {
     public static Set<String> getUniqueOutLinks(String url) {
         Set<String> list = new HashSet();
         try {
-            Document doc = StorageManager.getResponse(url).parse();
+            Document doc = DownloadManager.getResponse(url).parse();
             Elements links = doc.select("a[href]");
             for (Element link : links) { //links
                 String s = link.attr("abs:href");

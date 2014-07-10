@@ -4,8 +4,7 @@ package net.metamug.metascrapper.strategy;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
+import java.io.IOException;
 import net.metamug.metascrapper.entity.WebMetaData;
 import static net.metamug.metascrapper.util.MetaScrapperUtil.getHost;
 import java.net.MalformedURLException;
@@ -17,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.metamug.metascrapper.util.DownloadManager;
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.examples.ListLinks;
@@ -30,6 +30,47 @@ import org.jsoup.select.Elements;
  * @author bhatt
  */
 public class WebMetaStrategy implements MetaStrategy {
+
+    public static byte[] getBytes(String path) {
+        byte[] buffer = null;
+        try {
+            //since these domains are static .. specific headers are not needed.
+            buffer = Jsoup.connect(path)
+                    .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+                    .referrer("http://www.google.com")
+                    .ignoreContentType(true)
+                    .timeout(12000)
+                    .followRedirects(true)
+                    .execute().bodyAsBytes();
+        } catch (IOException ex) {
+            Logger.getLogger(DownloadManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return buffer;
+    }
+
+    public static Response getResponse(String path) {
+        Response res = null;
+        try {
+            //since these domains are static .. specific headers are not needed.
+            res = Jsoup.connect(path)
+                    .userAgent(USER_AGENT)
+                    .referrer("http://www.google.com")
+                    .ignoreContentType(true)
+                    .header("Accept-Encoding", "gzip,deflate,sdch")
+                    .header("Accept-Language", "en")
+                    .timeout(12000)
+                    .maxBodySize(0)
+                    //.ignoreHttpErrors(true)
+                    .followRedirects(true)
+                    .execute();
+        } catch (IOException ex) {
+            Logger.getLogger(DownloadManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return res;
+    }
+    public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0";
 
     Document doc;
     String url;
@@ -350,7 +391,6 @@ public class WebMetaStrategy implements MetaStrategy {
         return keys;
     }
 
- 
 }
 //    <div itemprop="video" itemscope="" itemtype="http://schema.org/VideoObject" id="yui_3_9_1_1_1393142546040_2000">
 //                                    <meta itemprop="name" content="Jaguar Attacks Caiman Crocodile - CLOSE UP FOOTAGE">

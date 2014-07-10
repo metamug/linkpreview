@@ -19,7 +19,6 @@ import net.metamug.metascrapper.entity.AudioMetaData;
 import net.metamug.metascrapper.entity.MetaData;
 import net.metamug.metascrapper.entity.MetaImage;
 import net.metamug.metascrapper.entity.WebMetaData;
-import net.metamug.metascrapper.util.StorageManager;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.jsoup.nodes.Document;
 
@@ -53,7 +52,7 @@ public class AudioMetaStrategy {
             BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageData));
 //            albumArt.setHeight((short) img.getHeight());
 //            albumArt.setWidth((short) img.getWidth());
-            metadata.setPicture(StorageManager.upload(img));
+            //metadata.setPicture(StorageManager.upload(img));
 
             metadata.setTitle(id3v2tag.getTitle());
             metadata.setAlbum(id3v2tag.getAlbum());

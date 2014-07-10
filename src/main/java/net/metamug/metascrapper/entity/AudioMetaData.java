@@ -5,6 +5,7 @@
  */
 package net.metamug.metascrapper.entity;
 
+import com.google.gson.annotations.Expose;
 import java.util.Objects;
 
 /**
@@ -14,9 +15,11 @@ import java.util.Objects;
  */
 public class AudioMetaData extends WebMetaData{
 
-    
+    @Expose
     String artist; //30 characters of the artist
+    @Expose
     String album; //30 characters of the album name
+    @Expose
     int year; //A four-digit year
     
 

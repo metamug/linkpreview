@@ -6,15 +6,20 @@
 
 package net.metamug.metascrapper.entity;
 
+import com.google.gson.annotations.Expose;
+
 /**
  *
  * @author cskksc
  */
 public class ImageMetaData extends WebMetaData implements MetaData {
-    
+    @Expose
     private int height;
+    @Expose
     private int width;
+    @Expose
     private String author;
+    @Expose
     private int views;
     
     public ImageMetaData() {

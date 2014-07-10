@@ -43,7 +43,7 @@ public class RobotsTxt {
         rules = robotsTxtRules.get(hostId);
 
         if (rules == null) {
-            Response response = StorageManager.getResponse(hostId + "/robots.txt");
+            Response response = DownloadManager.getResponse(hostId + "/robots.txt");
             if (response.contentType().matches("[^image|^audio|application]") || response.statusMessage() != null && response.statusCode() == 404) {
                 rules = new SimpleRobotRules(RobotRulesMode.ALLOW_ALL);
             } else {
