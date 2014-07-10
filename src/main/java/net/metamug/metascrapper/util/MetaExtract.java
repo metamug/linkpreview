@@ -6,6 +6,8 @@ package net.metamug.metascrapper.util;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -18,7 +20,7 @@ public class MetaExtract {
 
     public static String getSchemaPropery(Element element, String query) {
         String content;
-        if((content = getFirstText(element, query)) == null){
+        if ((content = getFirstText(element, query)) == null) {
             content = getFirstAttributeValue(element, query, "content");
         }
         return content;
@@ -53,7 +55,7 @@ public class MetaExtract {
             metaElement = metaElements.first();
             content = metaElement.attr(attribute);
         }
-        
+
         if (content != null) {
             return content.isEmpty() ? null : content;
         }
@@ -88,10 +90,15 @@ public class MetaExtract {
             return null;
         }
     }
-    
-    public static String getDomainName(String url) throws URISyntaxException {
-        URI uri = new URI(url);
-        String domain = uri.getHost();
-        return domain.startsWith("www.") ? domain.substring(4) : domain;
+
+    public static String getDomainName(String url) {
+        try {
+            URI uri = new URI(url);
+            String domain = uri.getHost();
+            return domain.startsWith("www.") ? domain.substring(4) : domain;
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(MetaExtract.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 }

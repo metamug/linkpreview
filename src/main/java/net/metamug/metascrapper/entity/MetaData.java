@@ -10,12 +10,12 @@ package net.metamug.metascrapper.entity;
  */
 public interface MetaData {
 
-    public static final String HTML="HTML";
-    public static final String AUDIO="AUDIO";
-    public static final String PRODUCT="text/html";
-    public static final String PDF="PDF";
-    public static final String VIDEO="VIDEO";
-    public static final String MAP="MAP";
-    public static final String SERVICE="SERVICE";
-    public static final String WIKI="WIKI";
+    public static final String HTML = "HTML";
+    public static final String AUDIO = "AUDIO";
+    public static final String PRODUCT = "PRODUCT";
+    public static final String PDF = "PDF";
+    public static final String VIDEO = "VIDEO";
+    public static final String MAP = "MAP";
+    public static final String SERVICE = "SERVICE";
+    public static final String WIKI = "WIKI";
 }

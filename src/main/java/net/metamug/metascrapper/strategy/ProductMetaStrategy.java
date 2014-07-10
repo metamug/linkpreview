@@ -31,8 +31,7 @@ public class ProductMetaStrategy extends WebMetaStrategy {
 
     public ProductMetaStrategy(Document doc, String url, Element metablock) {
         super(doc, url);
-        this.productBlock = metablock;
-
+        this.productBlock = metablock; 
         site = MetaScrapperUtil.getBaseDomain(url);
 
         flipkart.put("name","[itemprop=name]");
