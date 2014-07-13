@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.metamug.metascrapper.util.DownloadManager;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -174,7 +175,7 @@ public class WebMetaStrategy implements MetaStrategy {
         description = desc;
 
         // Create short description
-        String shortDesc = description;
+        String shortDesc = StringEscapeUtils.escapeHtml4(description);
 
         if (description != null && description.length() >= MAX_DESC_LENGTH) {
             shortDesc = description.substring(0, MAX_DESC_LENGTH) + "...";
