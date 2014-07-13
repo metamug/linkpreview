@@ -14,8 +14,10 @@ import java.util.LinkedList;
  *
  * @author deepak
  */
-public class ArticleMetaData extends WebMetaData implements MetaData{
+public class ArticleMetaData extends WebMetaData implements MetaData {
+
     //<meta property="article:published_time" content="2014-03-19T13:59:14+05:30">
+
     @Expose
     private Date datePublished;
     @Expose
@@ -24,5 +26,7 @@ public class ArticleMetaData extends WebMetaData implements MetaData{
     //<a href="/author/arun" alt="arun" title="arun" rel="author">Arun George</a>
     @Expose
     private String author;
-    
+
+    @Expose
+    private String[] tags;
 }
