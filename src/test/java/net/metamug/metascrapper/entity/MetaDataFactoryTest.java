@@ -7,8 +7,10 @@ package net.metamug.metascrapper.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -51,7 +53,7 @@ public class MetaDataFactoryTest {
 //        System.out.println(result.getThumbnail().getUrl());
     }
 
-    @Test
+//    @Test
     public void testProduct() {
 
         /*The following test data will be generated from an external file in future*/
@@ -92,17 +94,32 @@ public class MetaDataFactoryTest {
 //        System.out.println(i.getViews());
     }
 
-//    @Test
+    @Test
     public void testWebGeneric() {
         /*The following test data will be generated from an external file in future*/
         List<String> testData = new ArrayList<>();
-        testData.add("http://facebook.com/");
-        testData.add("http://www.gujaratuniversity.org.in/web/index.asp");
-        testData.add("http://venturebeat.com/2014/06/24/how-to-know-if-youre-learning-the-right-programming-language/");
-        testData.add("http://opennews.kzhu.io/map-disputes/?_ga=1.48243875.420098949.1397702661");
-        testData.add("http://snapdeal.com");
+//        testData.add("http://facebook.com/");
+        
+//        testData.add("http://venturebeat.com/2014/06/24/how-to-know-if-youre-learning-the-right-programming-lan/guage/");
+//        testData.add("http://opennews.kzhu.io/map-disputes/?_ga=1.48243875.420098949.1397702661");
+//        testData.add("http://snapdeal.com");
+//        testData.add("http://www.laurencegellert.com/2013/05/pros-and-cons-of-rds-vs-ec2-for-mysql-with-aws/");
+//        testData.add("http://www.gujaratuniversity.org.in/web/index.asp");
+        testData.add("http://www.fool.com/ecap/the_motley_fool/homerun-warren-buffett-tells-you-how-to-turn-40-2/?paid=7283&psource=esatab7410860091&waid=7284&wsource=esatabwdg0860079&utm_source=taboola&utm_medium=referral");
+//        testData.add("http://locust.io/");
+//        testData.add("http://www.theserverside.com/feature/Practical-Challenges-of-Profiler-Integration-with-Java-J2EE-Applications");
+//        testData.add("http://cssdeck.com/labs/google-fonts-css-longshade-icon");
+//        testData.add("http://pmindia.nic.in/details123.php");
+//        testData.add("http://pmindia.nic.in/");
+//        testData.add("http://mvnrepository.com/artifact/com.google.zxing/core/2.0");
+//        testData.add("http://rc3.org/2011/12/02/using-hmac-to-authenticate-web-service-requests/");
+//        testData.add("https://auth0.com/blog/2014/01/07/angularjs-authentication-with-cookies-vs-token/");
+//        testData.add("http://www.menslifestylenetwork.com/5-movies-that-make-even-a-real-man-cry");
+        testData.add("https://discussions.apple.com/message/16597459");
+//        testData.add("http://www.quora.com/Computer-Keyboards/Why-is-the-keyboard-layout-Q-W-E-R-T-Y-and-not-simply-A-B-C-D-E-F");
         for (String url : testData) {
             WebMetaData p = (WebMetaData) MetaDataFactory.create(url);
+            
             System.out.println("===== Generic Web Metadata =====");
             System.out.println("Title: " + p.getTitle());
             System.out.println("Description: " + p.getDescription());

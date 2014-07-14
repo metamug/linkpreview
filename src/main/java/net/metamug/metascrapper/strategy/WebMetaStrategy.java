@@ -16,8 +16,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.metamug.metascrapper.entity.MetaData;
 import net.metamug.metascrapper.util.DownloadManager;
+import net.metamug.metascrapper.util.HtmlManipulator;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -90,11 +93,11 @@ public class WebMetaStrategy implements MetaStrategy {
     @Override
     public WebMetaData getMeta() {
         WebMetaData meta = new WebMetaData();
-        meta.setTitle(getTitle());
+        meta.setTitle(StringEscapeUtils.escapeHtml4(getTitle()));
         meta.setDomain(getHost(url));
-        meta.setType("text/html");
+        meta.setType(MetaData.HTML);
         meta.setPicture(getThumbnailURL());
-        meta.setDescription(getDescription());
+        meta.setDescription(StringEscapeUtils.unescapeHtml4(getDescription()));
 
         return meta;
     }
@@ -106,10 +109,12 @@ public class WebMetaStrategy implements MetaStrategy {
         } else if ((title = getMetaTagContent("meta[property=og:title]")) != null) {
         } else if ((title = getMetaTagContent("meta[name=twitter:title]")) != null) {
         } else if ((title = getMetaTagContent("meta[itemprop=name]")) != null) { //video objects on yahoo are better represented with schema.org item title
-        } else if ((title = doc.title()) != null) {
+        } else if (StringUtils.isNotBlank(title = doc.title())) {
+        } else if ((title = getFirstLongText("h1", 2)) != null) {
         }
+        //remove new lines
         title = title.replace("\n", "").replace("\r", "").replace("\t", "");
-        return title;
+        return StringEscapeUtils.escapeHtml4(title);
     }
 
     public String getFaviconURL(String URL) {
@@ -159,7 +164,6 @@ public class WebMetaStrategy implements MetaStrategy {
 
     public String getDescription() {
         final int MAX_DESC_LENGTH = 400;
-
         String description = "";
         String desc;
 
@@ -170,18 +174,19 @@ public class WebMetaStrategy implements MetaStrategy {
         } else if ((desc = getMetaTagContent("meta[name=twitter:description]")) != null) {
         } else if ((desc = getMetaTagContent("meta[name=description]")) != null) {
         } else if ((desc = getFirstText("div[itemprop*=description]")) != null) { //since description itemprop is multivalued
+        } else if ((desc = getFirstLongText("p", 80)) != null) { //take p tags
         }
 
         description = desc;
-
         // Create short description
-        String shortDesc = StringEscapeUtils.escapeHtml4(description);
-
-        if (description != null && description.length() >= MAX_DESC_LENGTH) {
-            shortDesc = description.substring(0, MAX_DESC_LENGTH) + "...";
+        if (description != null) {
+            if (description.length() >= MAX_DESC_LENGTH) {
+                description = description.substring(0, MAX_DESC_LENGTH) + "...";
+            }
+            return (description);
+        } else {
+            return null;
         }
-
-        return shortDesc;
     }
 
     public boolean exists(Element element, String query) {
@@ -205,6 +210,26 @@ public class WebMetaStrategy implements MetaStrategy {
             metaElement = metaElements.first();
             content = metaElement.text();
         }
+        if (content != null) {
+            return content.isEmpty() ? null : content;
+        }
+
+        return content;
+    }
+
+    public String getFirstLongText(String selectionPattern, int length) {
+        String content = "";
+        Elements metaElements;
+
+        metaElements = doc.select(selectionPattern);
+
+        for (Element e : metaElements) {
+            if (e.text().length() > length) {
+                content = e.text();
+                break;
+            }
+        }
+
         if (content != null) {
             return content.isEmpty() ? null : content;
         }
