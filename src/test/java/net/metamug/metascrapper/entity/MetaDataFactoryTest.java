@@ -99,7 +99,7 @@ public class MetaDataFactoryTest {
         /*The following test data will be generated from an external file in future*/
         List<String> testData = new ArrayList<>();
 //        testData.add("http://facebook.com/");
-        
+
 //        testData.add("http://venturebeat.com/2014/06/24/how-to-know-if-youre-learning-the-right-programming-lan/guage/");
 //        testData.add("http://opennews.kzhu.io/map-disputes/?_ga=1.48243875.420098949.1397702661");
 //        testData.add("http://snapdeal.com");
@@ -116,10 +116,11 @@ public class MetaDataFactoryTest {
 //        testData.add("https://auth0.com/blog/2014/01/07/angularjs-authentication-with-cookies-vs-token/");
 //        testData.add("http://www.menslifestylenetwork.com/5-movies-that-make-even-a-real-man-cry");
         testData.add("https://discussions.apple.com/message/16597459");
+        testData.add("http://abcnews.go.com/Technology/wireStory/study-friends-share-similarities-dna-24560191");
 //        testData.add("http://www.quora.com/Computer-Keyboards/Why-is-the-keyboard-layout-Q-W-E-R-T-Y-and-not-simply-A-B-C-D-E-F");
         for (String url : testData) {
             WebMetaData p = (WebMetaData) MetaDataFactory.create(url);
-            
+
             System.out.println("===== Generic Web Metadata =====");
             System.out.println("Title: " + p.getTitle());
             System.out.println("Description: " + p.getDescription());
