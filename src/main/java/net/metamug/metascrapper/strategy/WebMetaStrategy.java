@@ -168,13 +168,13 @@ public class WebMetaStrategy implements MetaStrategy {
         String desc;
 
         //description
-        if ((desc = getMetaTagContent("meta[itemprop=description]")) != null) { //video objects 
-        } else if ((desc = getMetaTagContent("meta[name=og:description]")) != null) {
-        } else if ((desc = getMetaTagContent("meta[property=og:description]")) != null) {
-        } else if ((desc = getMetaTagContent("meta[name=twitter:description]")) != null) {
-        } else if ((desc = getMetaTagContent("meta[name=description]")) != null) {
-        } else if ((desc = getFirstText("div[itemprop*=description]")) != null) { //since description itemprop is multivalued
-        } else if ((desc = getFirstLongText("p", 80)) != null) { //take p tags
+        if (StringUtils.isNotBlank(desc = getMetaTagContent("meta[itemprop=description]"))) { //video objects 
+        } else if (StringUtils.isNotBlank(desc = getMetaTagContent("meta[name=og:description]"))) {
+        } else if (StringUtils.isNotBlank(desc = getMetaTagContent("meta[property=og:description]"))) {
+        } else if (StringUtils.isNotBlank(desc = getMetaTagContent("meta[name=twitter:description]"))) {
+        } else if (StringUtils.isNotBlank(desc = getMetaTagContent("meta[name=description]"))) {
+        } else if (StringUtils.isNotBlank(desc = getFirstText("div[itemprop*=description]"))) { //since description itemprop is multivalued
+        } else if (StringUtils.isNotBlank(desc = getFirstLongText("p", 80))) { //take p tags
         }
 
         description = desc;
