@@ -25,9 +25,9 @@ public class ProductMetaData extends WebMetaData implements MetaData {
     @Expose
     String priceCurrency; //currency  
     @Expose
-    String brand;
+    String manufacturer; 
     @Expose
-    String condition;
+    String condition; //new or old.
 
     public ProductMetaData() {
     }
@@ -91,14 +91,14 @@ public class ProductMetaData extends WebMetaData implements MetaData {
         this.priceCurrency = priceCurrency;
     }
     
-    public String getBrand()
+    public String getManufacturer()
     {
-        return this.brand;
+        return this.manufacturer;
     }
 
-    public void setBrand(String brand)
+    public void setManufacturer(String brand)
     {
-        this.brand = brand;
+        this.manufacturer = brand;
     }
     @Override
     public String toString() {

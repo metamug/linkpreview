@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class ProductMetaStrategy extends WebMetaStrategy {
 
     Element productBlock;
-    HashMap<String, HashMap> csk = new HashMap<>();
+    HashMap<String, HashMap> productSourceMap = new HashMap<>();
     HashMap<String, String> flipkart = new HashMap<>();
     HashMap<String, String> amazon = new HashMap<>();
     HashMap<String, String> snapdeal = new HashMap<>();
@@ -40,8 +40,8 @@ public class ProductMetaStrategy extends WebMetaStrategy {
         flipkart.put("ratingCount","[itemprop=ratingCount");
         flipkart.put("reviewCount","[itemprop=reviewCount]");
         flipkart.put("ratingValue", "[itemprop=ratingValue]");
-        flipkart.put("thumbnail", getThumbnail("div.visible-image-small"));
-        csk.put("flipkart.com", flipkart);
+        flipkart.put("thumbnail", getThumbnailURL("div.visible-image-small"));
+        productSourceMap.put("flipkart.com", flipkart);
 
 
         amazon.put("name","div.buying > h1.parseasinTitle > span#btAsinTitle > span");
@@ -50,8 +50,8 @@ public class ProductMetaStrategy extends WebMetaStrategy {
         amazon.put("ratingCount", "");
         amazon.put("ratingValue", "");
         amazon.put("reviewCount", "");
-        amazon.put("thumbnail",getThumbnail("td#prodImageCell > a"));
-        csk.put("amazon.in",amazon);
+        amazon.put("thumbnail",getThumbnailURL("td#prodImageCell > a"));
+        productSourceMap.put("amazon.in",amazon);
 
         snapdeal.put("name","[itemprop=name]");
 //        snapdeal.put("price","[itemprop=price]");
@@ -60,8 +60,8 @@ public class ProductMetaStrategy extends WebMetaStrategy {
         snapdeal.put("ratingCount","");
         snapdeal.put("ratingValue","");
         snapdeal.put("reviewCount","");
-        snapdeal.put("thumbnail",getThumbnail("div.product-main-image"));
-        csk.put("snapdeal.com", snapdeal);
+        snapdeal.put("thumbnail",getThumbnailURL("div.product-main-image"));
+        productSourceMap.put("snapdeal.com", snapdeal);
 
     }
 
@@ -75,41 +75,41 @@ public class ProductMetaStrategy extends WebMetaStrategy {
 
         String a = "";
 
-        if(!(a = (String) csk.get(site).get("name")).isEmpty())
+        if(!(a = (String) productSourceMap.get(site).get("name")).isEmpty())
         {
-            meta.setName(MetaExtract.getSchemaPropery(productBlock, (String) csk.get(site).get("name")));
+            meta.setName(MetaExtract.getSchemaPropery(productBlock, (String) productSourceMap.get(site).get("name")));
         }
 
-        if(!(a = (String) csk.get(site).get("price")).isEmpty())
+        if(!(a = (String) productSourceMap.get(site).get("price")).isEmpty())
         {
-//            meta.setPrice(Double.parseDouble(MetaExtract.getSchemaPropery(productBlock, (String) csk.get(site).get("price")).substring()));
-            String temp = MetaExtract.getSchemaPropery(productBlock, (String) csk.get(site).get("price"));
+//            meta.setPrice(Double.parseDouble(MetaExtract.getSchemaPropery(productBlock, (String) productSourceMap.get(site).get("price")).substring()));
+            String temp = MetaExtract.getSchemaPropery(productBlock, (String) productSourceMap.get(site).get("price"));
             meta.setPrice(Double.parseDouble(temp.substring(temp.indexOf(" "))));
         }
 
-        if(!(a = (String) csk.get(site).get("priceCurrency")).isEmpty())
+        if(!(a = (String) productSourceMap.get(site).get("priceCurrency")).isEmpty())
         {
-            meta.setPriceCurrency(MetaExtract.getSchemaPropery(productBlock, (String) csk.get(site).get("priceCurrency")));
+            meta.setPriceCurrency(MetaExtract.getSchemaPropery(productBlock, (String) productSourceMap.get(site).get("priceCurrency")));
         }
 
-        if(!(a = (String) csk.get(site).get("ratingCount")).isEmpty())
+        if(!(a = (String) productSourceMap.get(site).get("ratingCount")).isEmpty())
         {
-            meta.setRatingCount(Integer.parseInt(MetaExtract.getSchemaPropery(productBlock, (String) csk.get(site).get("ratingCount"))));
+            meta.setRatingCount(Integer.parseInt(MetaExtract.getSchemaPropery(productBlock, (String) productSourceMap.get(site).get("ratingCount"))));
         }
 
-        if(!(a = (String) csk.get(site).get("ratingValue")).isEmpty())
+        if(!(a = (String) productSourceMap.get(site).get("ratingValue")).isEmpty())
         {
-            meta.setRatingValue((int)Math.ceil(Double.parseDouble(MetaExtract.getSchemaPropery(productBlock, (String) csk.get(site).get("ratingValue")))));
+            meta.setRatingValue((int)Math.ceil(Double.parseDouble(MetaExtract.getSchemaPropery(productBlock, (String) productSourceMap.get(site).get("ratingValue")))));
         }
 
-         if(!(a = (String) csk.get(site).get("reviewCount")).isEmpty())
+         if(!(a = (String) productSourceMap.get(site).get("reviewCount")).isEmpty())
         {
-            meta.setReviewCount(Integer.parseInt(MetaExtract.getSchemaPropery(productBlock, (String) csk.get(site).get("reviewCount"))));
+            meta.setReviewCount(Integer.parseInt(MetaExtract.getSchemaPropery(productBlock, (String) productSourceMap.get(site).get("reviewCount"))));
         }
 
-        if(!(a = (String) csk.get(site).get("thumbnail")).isEmpty())
+        if(!(a = (String) productSourceMap.get(site).get("thumbnail")).isEmpty())
         {
-            meta.setPicture((String) csk.get(site).get("thumbnail"));
+            meta.setPicture((String) productSourceMap.get(site).get("thumbnail"));
         }
 
         if(site.equals("amazon.in")){
@@ -143,7 +143,8 @@ public class ProductMetaStrategy extends WebMetaStrategy {
         return meta;
     }
 
-    public String getThumbnail(String a)
+   
+    public String getThumbnailURL(String a)
     {
         String thumbURL = null;
         Element metaElement;
