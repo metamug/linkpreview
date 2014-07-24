@@ -5,8 +5,6 @@ package net.metamug.metascrapper.strategy;
  * and open the template in the editor.
  */
 import java.io.IOException;
-import net.metamug.metascrapper.entity.WebMetaData;
-import static net.metamug.metascrapper.util.MetaScrapperUtil.getHost;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -17,8 +15,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.metamug.metascrapper.entity.MetaData;
+import net.metamug.metascrapper.entity.WebMetaData;
 import net.metamug.metascrapper.util.DownloadManager;
-import net.metamug.metascrapper.util.HtmlManipulator;
+import static net.metamug.metascrapper.util.MetaScrapperUtil.getHost;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Connection.Response;
@@ -114,7 +113,7 @@ public class WebMetaStrategy implements MetaStrategy {
         }
         //remove new lines
         title = title.replace("\n", "").replace("\r", "").replace("\t", "");
-        return StringEscapeUtils.escapeHtml4(title);
+        return (title);
     }
 
     public String getFaviconURL(String URL) {
@@ -168,7 +167,7 @@ public class WebMetaStrategy implements MetaStrategy {
         String desc;
 
         //description
-        if (StringUtils.isNotBlank(desc = getMetaTagContent("meta[itemprop=description]"))) { //video objects 
+        if (StringUtils.isNotBlank(desc = getMetaTagContent("meta[itemprop=description]"))) { //video objects
         } else if (StringUtils.isNotBlank(desc = getMetaTagContent("meta[name=og:description]"))) {
         } else if (StringUtils.isNotBlank(desc = getMetaTagContent("meta[property=og:description]"))) {
         } else if (StringUtils.isNotBlank(desc = getMetaTagContent("meta[name=twitter:description]"))) {
@@ -276,7 +275,7 @@ public class WebMetaStrategy implements MetaStrategy {
     public String getThumbnailURL() {
         String thumbURL;
 
-        //<meta itemprop="image" content=""> on yahoo 
+        //<meta itemprop="image" content=""> on yahoo
         if ((thumbURL = getMetaTagContent("meta[itemprop=image]")) != null) {
         } else if ((thumbURL = getMetaTagContent("meta[itemprop=thumbnailUrl]")) != null) {
         } else if ((thumbURL = getMetaTagContent("meta[property=og:image]")) != null) {
@@ -288,7 +287,7 @@ public class WebMetaStrategy implements MetaStrategy {
         } else if ((thumbURL = getFirstAttributeValue("img[class*=wp-image]", "abs:src")) != null) {
             //} else if ((thumbURL = getFirstAttributeValue("img[alt*=wp-image]","abs:src")) != null) {
         } else if ((thumbURL = getMetaTagContent("link[rel=apple-touch-icon]")) != null) {
-        } else if ((thumbURL = getMetaTagContent("meta[name=msapplication-TileImage]")) != null) { //<meta name="msapplication-TileImage" content="https://a2.sndcdn.com/assets/images/sc-icons/win8-6e938b6a.png">            
+        } else if ((thumbURL = getMetaTagContent("meta[name=msapplication-TileImage]")) != null) { //<meta name="msapplication-TileImage" content="https://a2.sndcdn.com/assets/images/sc-icons/win8-6e938b6a.png">
         }
 
         String fullPath = makeAbsoluteURL(thumbURL, url);
@@ -424,7 +423,7 @@ public class WebMetaStrategy implements MetaStrategy {
 //                    <div id="mediavideoplayercollectionca" class="yom-mod mod-video-player" style="background-color:#000000;min-height:351px;">
 //                        <div class="bd" id="yui_3_9_1_1_1393142546040_1999">
 //                            <div id="player-cont-mediavideoplayercollectionca" class="player-container" style="height:351px;"><div class="yui3-videoplayer-content medium desktop" id="yui_3_9_1_1_1393142546040_668"><div class="yui3-videoplayer-main" id="yui_3_9_1_1_1393142546040_667" style="height: 100%;"><div class="accessible-controls" id="yui_3_9_1_1_1393142546040_589" style="display: block;"><button class="play">Play</button><button class="seek-back">Seek Back 5 Seconds</button><button class="seek-forward">Seek Forward 5 Seconds</button><button class="volume-up">Volume Up</button><button class="volume-down">Volume Down</button><button class="mute">Mute</button><button class="next-video">Next Video</button><button class="hotkey-menu">Open Hotkey Menu</button></div><div class="yui3-videoplayer-controls" id="yui_3_9_1_1_1393142546040_486"><div class="bar disable" id="yui_3_9_1_1_1393142546040_487"><div class="main"><button class="item play-pause yui3-videoplayer-transparent pause"><span class=""></span></button></div><div class="seek" id="yui_3_9_1_1_1393142546040_2007"><div class="slider" id="yui_3_9_1_1_1393142546040_2006"><div class="buffer" style="width: 50.152023320690844%;"></div><div class="progress" style="width: 35.634579820079615%;"></div><div class="handle" id="yui_3_9_1_1_1393142546040_2014" style="left: 35.634579820079615%;"></div></div><div class="time show" style="width: 48px; margin-left: -24px; left: 35.634579820079615%;">0:41</div><div class="vseek" style="display: none;"><div class="vseek-thumb"></div><div class="vseek-time"></div></div></div><div class="aux"><div class="item settings yui3-videoplayer-transparent"><span class=""></span></div></div></div><div class="settings-panel-box embed-hidden yui3-videoplayer-transparent" id="yui_3_9_1_1_1393142546040_573" style="display: none;"><div class="settings-panel"><table class=""><tbody class=""><tr class="share-embeds" style=""><td class="share-embeds-hdr">share</td><td class="share-embeds-buttons"><a class="button tumblr-icon" target="_blank" href="https://www.tumblr.com/share/video?embed=http%3A%2F%2Fin.news.yahoo.com%2Fvideo%2Fplaylist%2Fbarcroft-media-videos%2Fjaguar-attacks-caiman-crocodile-close-163000211.html&amp;caption=A%20jaguar%20ambushes%20a%20stunned%20caiman%20-%20by%20exploding%20from%20a%20river%20like%20a%20crocodile.%C2%A0The%2020-stone%20cat%20then%20sinks%20its%20teeth%20into%20the%20eight-foot%20reptile%20before%20dragging%20it%20back%20across%20the%20water%20and%20into%20the%20jungle.%C2%A0The%20unbelievable%20kill%20sequence%20was%20captured%20by%20videographer%20Sally%20Eagle%20in%20the%20Pantanal%20Wetlands%20of%20Brazil."></a><a class="button fb-icon" target="_blank" href="http://www.facebook.com/sharer.php?t=Jaguar%20Attacks%20Caiman%20Crocodile%20-%20CLOSE%20UP%20FOOTAGE&amp;u=http%3A%2F%2Fin.news.yahoo.com%2Fvideo%2Fplaylist%2Fbarcroft-media-videos%2Fjaguar-attacks-caiman-crocodile-close-163000211.html"></a><a class="button twitter-icon" target="_blank" href="https://twitter.com/intent/tweet?text=Jaguar%20Attacks%20Caiman%20Crocodile%20-%20CLOSE%20UP%20FOOTAGE&amp;url=http%3A%2F%2Fin.news.yahoo.com%2Fvideo%2Fplaylist%2Fbarcroft-media-videos%2Fjaguar-attacks-caiman-crocodile-close-163000211.html&amp;via=Yahoo"></a><a class="button mail-icon" href="mailto:?subject=Jaguar Attacks Caiman Crocodile - CLOSE UP FOOTAGE&amp;body=http%3A%2F%2Fin.news.yahoo.com%2Fvideo%2Fplaylist%2Fbarcroft-media-videos%2Fjaguar-attacks-caiman-crocodile-close-163000211.html%0D%0DA jaguar ambushes a stunned caiman - by exploding from a river like a crocodile. The 20-stone cat then sinks its teeth into the eight-foot reptile before dragging it back across the water and into the jungle. The unbelievable kill sequence was captured by videographer Sally Eagle in the Pantanal Wetlands of Brazil."></a><button class="button embed-button">Embed</button></td></tr><tr class="embed-link"><th class="">link</th><td class=""><div class="text"><input class="text embed-link-text" readonly="readonly"><span class="text embed-link-button"><button class="button embed-chainlink-button"></button></span></div></td></tr><tr class="embed-code"><th class="">embed</th><td class=""><div class="text embed-valid-code" style="display: none;"><input class="text embed-code-text"><span class="text embed-code-button"><button class="button embed-chainlink-button"></button></span></div><div class="text embed-error"><input class="text embed-error-text" readonly="readonly"></div></td></tr><tr class="captions"><th class="caption-hdr">captions</th><td class="caption-buttons" id="yui_3_9_1_1_1393142546040_445"><button class="text cc-on">on</button><button class="text cc-off on">off</button><button class="text cc-feedback">feedback</button></td></tr><tr class="size"><th class="">size</th><td class=""><button class="small on"></button><button class="full"></button></td></tr><tr class="volume"><th class="">volume</th><td class=""><button class="mute"><span class=""></span></button><div class="bars" id="yui_3_9_1_1_1393142546040_1814"><div class="bar-1 on"></div><div class="bar-2 on"></div><div class="bar-3 on"></div><div class="bar-4 on"></div><div class="bar-5 on"></div><div class="bar-6"></div></div><a class="button y-logo" target="_blank" href="http://in.news.yahoo.com/video/playlist/barcroft-media-videos/jaguar-attacks-caiman-crocodile-close-163000211.html" style="display: none;"></a></td></tr></tbody></table></div></div></div><div class="yui3-videoplayer-loading" style="display: none;"></div><div class="yui3-videoplayer-slug" style="display: none;"></div><div class="yui3-videoplayer-video" id="yui_3_9_1_1_1393142546040_1998" style="opacity: 1;"><object id="yuiswfyui_3_9_1_1_1393142546040_678" type="application/x-shockwave-flash" data="http://l.yimg.com/rx/builds/4.4.0.1392343259/assets/player.swf" width="100%" height="100%"><param name="allowscriptaccess" value="always"><param name="allowfullscreen" value="true"><param name="wmode" value="opaque"><param name="flashVars" value="yId=yui_3_9_1_1_1393142546040_1&amp;YUISwfId=yuiswfyui_3_9_1_1_1393142546040_678&amp;YUIBridgeCallback=SWF.eventHandler&amp;allowedDomain=in.news.yahoo.com"></object></div></div></div></div>
-//                            
+//
 //                        </div>
 //                    </div>
 //                </div>
