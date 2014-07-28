@@ -92,7 +92,7 @@ public class WebMetaStrategy implements MetaStrategy {
     @Override
     public WebMetaData getMeta() {
         WebMetaData meta = new WebMetaData();
-        meta.setTitle(StringEscapeUtils.escapeHtml4(getTitle()));
+        meta.setTitle(StringEscapeUtils.unescapeHtml4(getTitle()));
         meta.setDomain(getHost(url));
         meta.setType(MetaData.HTML);
         meta.setPicture(getThumbnailURL());
