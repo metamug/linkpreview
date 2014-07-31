@@ -5,6 +5,11 @@
  */
 package net.metamug.metascrapper.entity;
 
+import net.metamug.scrapper.entity.ProductMetaData;
+import net.metamug.scrapper.entity.ImageMetaData;
+import net.metamug.scrapper.entity.WebMetaData;
+import net.metamug.scrapper.entity.AudioMetaData;
+import net.metamug.scrapper.factory.MetaDataFactory;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.StringEscapeUtils;

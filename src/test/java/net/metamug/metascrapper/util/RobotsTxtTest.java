@@ -6,6 +6,7 @@
 
 package net.metamug.metascrapper.util;
 
+import net.metamug.scrapper.util.RobotsTxt;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
