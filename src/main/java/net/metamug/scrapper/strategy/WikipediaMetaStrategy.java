@@ -5,7 +5,9 @@
 package net.metamug.scrapper.strategy;
 
 import net.metamug.scrapper.entity.WebMetaData;
-import static net.metamug.scrapper.util.MetaScrapperUtil.getHost;
+import static net.metamug.scrapper.util.ScrapperUtil.getHost;
+import static net.metamug.scrapper.util.StrategyHelper.exists;
+import static net.metamug.scrapper.util.StrategyHelper.getFirstText;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;

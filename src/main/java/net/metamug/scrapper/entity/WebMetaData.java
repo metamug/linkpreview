@@ -10,12 +10,14 @@ import org.apache.commons.lang3.StringEscapeUtils;
  * @author bhatt
  */
 public class WebMetaData implements MetaData {
+    
 
     private String title;
     private String domain;
     private String type;
     private String description;
     private String picture;
+    
 
     public WebMetaData() {
     }

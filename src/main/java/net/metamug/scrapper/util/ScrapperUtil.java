@@ -5,11 +5,19 @@
  */
 package net.metamug.scrapper.util;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.metamug.scrapper.strategy.WebMetaStrategy;
+
 /**
  *
  * @author deepak
  */
-public class MetaScrapperUtil {
+public class ScrapperUtil {
 
     /**
      * Will take a url such as http://www.stackoverflow.com and return
@@ -65,8 +73,45 @@ public class MetaScrapperUtil {
         }
     }
 
-    public static String extractString(String x)
-    {
+    public static String extractString(String x) {
         return " ";
+    }
+
+    public static String makeAbsoluteURL(String url, String base) {
+        final URI u;
+        if (url == null || url.isEmpty()) {
+            return "";
+        }
+        try {
+            u = new URI(url);
+            URL baseURL = new URL(base);
+            if (u.isAbsolute()) {
+                return url;
+            } else if (u.toString().startsWith("//")) {
+                return "http:" + url;
+            } else {
+                if (url.startsWith("/")) {
+                    return baseURL.getProtocol() + "://" + baseURL.getHost() + url;
+                } else {
+                    return base + "/" + url;
+                }
+            }
+        } catch (URISyntaxException ex) {
+            return null;
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(WebMetaStrategy.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    public static String getDomainName(String url) {
+        try {
+            URI uri = new URI(url);
+            String domain = uri.getHost();
+            return domain.startsWith("www.") ? domain.substring(4) : domain;
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(StrategyHelper.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 }

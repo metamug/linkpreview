@@ -6,8 +6,6 @@ package net.metamug.scrapper.strategy;
  */
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +16,12 @@ import net.metamug.scrapper.entity.MetaData;
 import net.metamug.scrapper.entity.WebMetaData;
 import net.metamug.scrapper.util.DownloadManager;
 import net.metamug.scrapper.util.ImageUtil;
-import static net.metamug.scrapper.util.MetaScrapperUtil.getHost;
+import static net.metamug.scrapper.util.StrategyHelper.getFirstAttributeValue;
+import static net.metamug.scrapper.util.StrategyHelper.getFirstLongText;
+import static net.metamug.scrapper.util.StrategyHelper.getFirstText;
+import static net.metamug.scrapper.util.StrategyHelper.getMetaTagContent;
+import static net.metamug.scrapper.util.ScrapperUtil.getHost;
+import static net.metamug.scrapper.util.ScrapperUtil.makeAbsoluteURL;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Connection.Response;
@@ -105,12 +108,12 @@ public class WebMetaStrategy implements MetaStrategy {
     public String getTitle() {
         String title;
 
-        if ((title = getMetaTagContent("meta[name=og:title]")) != null) {
-        } else if ((title = getMetaTagContent("meta[property=og:title]")) != null) {
-        } else if ((title = getMetaTagContent("meta[name=twitter:title]")) != null) {
-        } else if ((title = getMetaTagContent("meta[itemprop=name]")) != null) { //video objects on yahoo are better represented with schema.org item title
+        if ((title = getMetaTagContent(doc, "meta[name=og:title]")) != null) {
+        } else if ((title = getMetaTagContent(doc, "meta[property=og:title]")) != null) {
+        } else if ((title = getMetaTagContent(doc, "meta[name=twitter:title]")) != null) {
+        } else if ((title = getMetaTagContent(doc, "meta[itemprop=name]")) != null) { //video objects on yahoo are better represented with schema.org item title
         } else if (StringUtils.isNotBlank(title = doc.title())) {
-        } else if ((title = getFirstLongText("h1", 2)) != null) {
+        } else if ((title = getFirstLongText(doc, "h1", 2)) != null) {
         }
         //remove new lines
         title = title.replace("\n", "").replace("\r", "").replace("\t", "");
@@ -164,13 +167,13 @@ public class WebMetaStrategy implements MetaStrategy {
 
     public String getDescription() {
         String desc;
-        if (StringUtils.isNotBlank(desc = getMetaTagContent("meta[itemprop=description]"))) { //video objects
-        } else if (StringUtils.isNotBlank(desc = getMetaTagContent("meta[name=og:description]"))) {
-        } else if (StringUtils.isNotBlank(desc = getMetaTagContent("meta[property=og:description]"))) {
-        } else if (StringUtils.isNotBlank(desc = getMetaTagContent("meta[name=twitter:description]"))) {
-        } else if (StringUtils.isNotBlank(desc = getMetaTagContent("meta[name=description]"))) {
-        } else if (StringUtils.isNotBlank(desc = getFirstText("div[itemprop*=description]"))) { //since description itemprop is multivalued
-        } else if (StringUtils.isNotBlank(desc = getFirstLongText("p", 80))) { //take p tags
+        if (StringUtils.isNotBlank(desc = getMetaTagContent(doc, "meta[itemprop=description]"))) { //video objects
+        } else if (StringUtils.isNotBlank(desc = getMetaTagContent(doc, "meta[name=og:description]"))) {
+        } else if (StringUtils.isNotBlank(desc = getMetaTagContent(doc, "meta[property=og:description]"))) {
+        } else if (StringUtils.isNotBlank(desc = getMetaTagContent(doc, "meta[name=twitter:description]"))) {
+        } else if (StringUtils.isNotBlank(desc = getMetaTagContent(doc, "meta[name=description]"))) {
+        } else if (StringUtils.isNotBlank(desc = getFirstText(doc, "div[itemprop*=description]"))) { //since description itemprop is multivalued
+        } else if (StringUtils.isNotBlank(desc = getFirstLongText(doc, "p", 80))) { //take p tags
         }
 
         // Create short description
@@ -184,120 +187,22 @@ public class WebMetaStrategy implements MetaStrategy {
         }
     }
 
-    /**
-     * Check if an element exists.
-     *
-     * @param element
-     * @param query
-     * @return
-     */
-    public boolean exists(Element element, String query) {
-        Elements elements = element.select(query);
-        if (elements == null || elements.isEmpty()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    // Elements with inner html.
-    public String getFirstText(String selectionPattern) {
-        String content = null;
-        Elements metaElements;
-        Element metaElement;
-
-        metaElements = doc.select(selectionPattern);
-
-        if (metaElements != null && !metaElements.isEmpty()) {
-            metaElement = metaElements.first();
-            content = metaElement.text();
-        }
-        if (content != null) {
-            return content.isEmpty() ? null : content;
-        }
-
-        return content;
-    }
-
-    /**
-     * Get First string from tag with minimum length.
-     *
-     * @param selectionPattern the tag to search text.
-     * @param length minimum length for which the text should be returned
-     * @return the returned text
-     */
-    public String getFirstLongText(String selectionPattern, int length) {
-        String content = "";
-        Elements metaElements;
-
-        metaElements = doc.select(selectionPattern);
-
-        for (Element e : metaElements) {
-            if (e.text().length() > length) {
-                content = e.text();
-                break;
-            }
-        }
-
-        if (content != null) {
-            return content.isEmpty() ? null : content;
-        }
-
-        return content;
-    }
-
-    public String getFirstText(Element element, String selectionPattern) {
-        String content = null;
-        Elements metaElements;
-        Element metaElement;
-
-        metaElements = element.select(selectionPattern);
-
-        if (metaElements != null && !metaElements.isEmpty()) {
-            metaElement = metaElements.first();
-            content = metaElement.text();
-        }
-        if (content != null) {
-            return content.isEmpty() ? null : content;
-        }
-
-        return content;
-    }
-
-    public String getFirstAttributeValue(String selectionPattern, String attribute) {
-        String content = null;
-        Elements metaElements;
-        Element metaElement;
-
-        metaElements = doc.select(selectionPattern);
-
-        if (metaElements != null && !metaElements.isEmpty()) {
-            metaElement = metaElements.first();
-            content = metaElement.attr(attribute);
-        }
-        if (content != null) {
-            return content.isEmpty() ? null : content;
-        }
-
-        return content;
-    }
-
     public String getThumbnailURL() {
         String thumbURL;
 
         //<meta itemprop="image" content=""> on yahoo
-        if ((thumbURL = getMetaTagContent("meta[itemprop=image]")) != null) {
-        } else if ((thumbURL = getMetaTagContent("meta[itemprop=thumbnailUrl]")) != null) {
-        } else if ((thumbURL = getMetaTagContent("meta[property=og:image]")) != null) {
-        } else if ((thumbURL = getMetaTagContent("meta[name=og:image]")) != null) {
-        } else if ((thumbURL = getMetaTagContent("meta[name=twitter:image]")) != null) {
-        } else if ((thumbURL = getMetaTagContent("meta[itemprop=image_url]")) != null) {
-        } else if ((thumbURL = getMetaTagContent("link[itemprop=image]")) != null) { //<link itemprop="image" href="//cdn.sstatic.net/stackoverflow/img/apple-touch-icon.png">
-        } else if ((thumbURL = getMetaTagContent("link[rel=image_src]")) != null) {
-        } else if ((thumbURL = getFirstAttributeValue("img[class*=wp-image]", "abs:src")) != null) {
+        if ((thumbURL = getMetaTagContent(doc, "meta[itemprop=image]")) != null) {
+        } else if ((thumbURL = getMetaTagContent(doc, "meta[itemprop=thumbnailUrl]")) != null) {
+        } else if ((thumbURL = getMetaTagContent(doc, "meta[property=og:image]")) != null) {
+        } else if ((thumbURL = getMetaTagContent(doc, "meta[name=og:image]")) != null) {
+        } else if ((thumbURL = getMetaTagContent(doc, "meta[name=twitter:image]")) != null) {
+        } else if ((thumbURL = getMetaTagContent(doc, "meta[itemprop=image_url]")) != null) {
+        } else if ((thumbURL = getMetaTagContent(doc, "link[itemprop=image]")) != null) { //<link itemprop="image" href="//cdn.sstatic.net/stackoverflow/img/apple-touch-icon.png">
+        } else if ((thumbURL = getMetaTagContent(doc, "link[rel=image_src]")) != null) {
+        } else if ((thumbURL = getFirstAttributeValue(doc, "img[class*=wp-image]", "abs:src")) != null) {
             //} else if ((thumbURL = getFirstAttributeValue("img[alt*=wp-image]","abs:src")) != null) {
-        } else if ((thumbURL = getMetaTagContent("link[rel=apple-touch-icon]")) != null) {
-        } else if ((thumbURL = getMetaTagContent("meta[name=msapplication-TileImage]")) != null) { //<meta name="msapplication-TileImage" content="https://a2.sndcdn.com/assets/images/sc-icons/win8-6e938b6a.png">
+        } else if ((thumbURL = getMetaTagContent(doc, "link[rel=apple-touch-icon]")) != null) {
+        } else if ((thumbURL = getMetaTagContent(doc, "meta[name=msapplication-TileImage]")) != null) { //<meta name="msapplication-TileImage" content="https://a2.sndcdn.com/assets/images/sc-icons/win8-6e938b6a.png">
         } else {
             Elements img = doc.getElementsByTag("img");
             List<String> list = new ArrayList<>();
@@ -315,60 +220,7 @@ public class WebMetaStrategy implements MetaStrategy {
         return fullPath;
     }
 
-    public String makeAbsoluteURL(String url, String base) {
-        final URI u;
-        if (url == null || url.isEmpty()) {
-            return "";
-        }
-        try {
-            u = new URI(url);
-            URL baseURL = new URL(base);
-            if (u.isAbsolute()) {
-                return url;
-            } else if (u.toString().startsWith("//")) {
-                return "http:" + url;
-            } else {
-                if (url.startsWith("/")) {
-                    return baseURL.getProtocol() + "://" + baseURL.getHost() + url;
-                } else {
-                    return base + "/" + url;
-                }
-            }
-        } catch (URISyntaxException ex) {
-            return null;
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(WebMetaStrategy.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
 
-    private String getMetaTagContent(String metaName) {
-
-        String content = null;
-        Elements metaElements;
-        Element metaElement;
-
-        metaElements = doc.select(metaName);
-
-        if (metaElements != null && !metaElements.isEmpty()) {
-            metaElement = metaElements.first();
-
-            // Since meta elements are always block elements
-            if (metaElement.isBlock()) {
-                if ("meta".equals(metaElement.tagName())) {
-                    content = metaElement.attr("content");
-                } else if ("link".equals(metaElement.tagName())) {
-                    content = metaElement.attr("abs:href");
-                }
-            }
-        }
-
-        if (content != null && !content.isEmpty()) {
-            return content;
-        } else {
-            return null;
-        }
-    }
 
     private String getType() {
         try {

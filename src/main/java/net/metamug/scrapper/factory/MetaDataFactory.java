@@ -1,18 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.metamug.scrapper.factory;
 
 import java.io.IOException;
 import net.metamug.scrapper.entity.WebMetaData;
 import net.metamug.scrapper.strategy.FlickrStrategy;
 import net.metamug.scrapper.strategy.ProductMetaStrategy;
-import net.metamug.scrapper.strategy.StackoverflowStrategy;
+import net.metamug.scrapper.strategy.QnAStrategy;
 import net.metamug.scrapper.strategy.WebMetaStrategy;
 import net.metamug.scrapper.strategy.WikipediaMetaStrategy;
 import net.metamug.scrapper.util.DownloadManager;
-import static net.metamug.scrapper.util.MetaScrapperUtil.getHost;
+import static net.metamug.scrapper.util.ScrapperUtil.getHost;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.jsoup.Connection.Response;
@@ -79,15 +75,15 @@ public class MetaDataFactory {
      * @return strategy to extract meta data
      */
     public static WebMetaStrategy getMetaStrategy(Document doc, String url) {
-        WebMetaStrategy strategy = new WebMetaStrategy(doc, url);
+        WebMetaStrategy strategy = null;
         Element metablock;
         if (url.contains("wikipedia.org/wiki/") && (metablock = doc.select("body.mediawiki").first()) != null) {
             strategy = new WikipediaMetaStrategy(doc, url, metablock);
         } else if (url.contains("stackoverflow.com/") && (metablock = doc.select("body.question-page").first()) != null) {
-            strategy = new StackoverflowStrategy(doc, url, metablock);
+            strategy = new QnAStrategy(doc, url, metablock);
         } else if (url.contains("flipkart.com/") && (metablock = doc.select("body.ProductPage").first()) != null) {
             strategy = new ProductMetaStrategy(doc, url, metablock);
-        } else if (url.contains("amazon.in/") && (metablock = doc.select("body.dp").first()) != null) {
+        } else if (url.contains("amazon.in/") && (metablock = doc.select("bodydp").first()) != null) {
             strategy = new ProductMetaStrategy(doc, url, metablock);
         } else if (url.contains("snapdeal.com/") && (metablock = doc.select("body").first()) != null) {
             strategy = new ProductMetaStrategy(doc, url, metablock);
@@ -95,6 +91,8 @@ public class MetaDataFactory {
             strategy = new FlickrStrategy(doc, url, metablock);
         } else if ((metablock = doc.select("[itemtype=http://schema.org/Restaurant]").first()) != null) {
 
+        } else {
+            strategy = new WebMetaStrategy(doc, url);
         }
 
         return strategy;

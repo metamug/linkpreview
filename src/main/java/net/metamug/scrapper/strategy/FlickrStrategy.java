@@ -8,7 +8,7 @@ package net.metamug.scrapper.strategy;
 
 import net.metamug.scrapper.entity.ImageMetaData;
 import net.metamug.scrapper.entity.WebMetaData;
-import net.metamug.scrapper.util.MetaExtract;
+import net.metamug.scrapper.util.StrategyHelper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -34,7 +34,7 @@ public class FlickrStrategy extends WebMetaStrategy{
         
         meta.setTitle(getTitle());
         meta.setPicture(getThumbnail());
-        meta.setAuthor(MetaExtract.getFirstText(metablock, "a.owner-name"));
+        meta.setAuthor(StrategyHelper.getFirstText(metablock, "a.owner-name"));
 //        meta.setViews(Integer.parseInt(metablock.select("div.view-count > span.view-count-label").first().text()));
 //        System.out.println(metablock.select("div.view-count > span.view-count-label").first().text());
         
