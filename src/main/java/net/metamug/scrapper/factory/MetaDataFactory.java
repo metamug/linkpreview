@@ -29,7 +29,7 @@ public class MetaDataFactory {
      * @return meta data
      */
     public static WebMetaData create(String url) {
-
+        
         Response response = DownloadManager.getResponse(url);
 
         if (response == null || response.contentType() == null) {
@@ -83,8 +83,9 @@ public class MetaDataFactory {
             strategy = new QnAStrategy(doc, url, metablock);
         } else if (url.contains("flipkart.com/") && (metablock = doc.select("body.ProductPage").first()) != null) {
             strategy = new ProductMetaStrategy(doc, url, metablock);
-        } else if (url.contains("amazon.in/") && (metablock = doc.select("bodydp").first()) != null) {
-            strategy = new ProductMetaStrategy(doc, url, metablock);
+            //amazon.in dom elements have changed.
+//        } else if (url.contains("amazon.in/") && (metablock = doc.select("body#dp").first()) != null) {
+//            strategy = new ProductMetaStrategy(doc, url, metablock);
         } else if (url.contains("snapdeal.com/") && (metablock = doc.select("body").first()) != null) {
             strategy = new ProductMetaStrategy(doc, url, metablock);
         } else if (url.contains("flickr.com/") && (metablock = doc.select("body").first()) != null) {

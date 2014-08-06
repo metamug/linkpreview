@@ -44,6 +44,7 @@ public class ProductMetaStrategy extends WebMetaStrategy {
 
         amazon.put("name", "div.buying > h1.parseasinTitle > span#btAsinTitle > span");
         amazon.put("price", "span#actualPriceValue > b.priceLarge > span");
+        amazon.put("price", "span#actualPriceValue > b.priceLarge > span");
         amazon.put("priceCurrency", "span#actualPriceValue > b.priceLarge > span > span.currencyINRFallback");
         amazon.put("ratingCount", "");
         amazon.put("ratingValue", "");
