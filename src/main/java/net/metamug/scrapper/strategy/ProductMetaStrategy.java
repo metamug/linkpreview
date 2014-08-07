@@ -10,6 +10,7 @@ import net.metamug.scrapper.entity.ProductMetaData;
 import net.metamug.scrapper.entity.WebMetaData;
 import net.metamug.scrapper.util.ScrapperUtil;
 import net.metamug.scrapper.util.StrategyHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
@@ -79,7 +80,11 @@ public class ProductMetaStrategy extends WebMetaStrategy {
         if (!(a = (String) productSourceMap.get(site).get("price")).isEmpty()) {
 //            meta.setPrice(Double.parseDouble(MetaExtract.getSchemaPropery(productBlock, (String) productSourceMap.get(site).get("price")).substring()));
             String temp = StrategyHelper.getSchemaPropery(productBlock, (String) productSourceMap.get(site).get("price"));
-            meta.setPrice(Double.parseDouble(temp.substring(temp.indexOf(" ")).replace(",", "")));
+            if (StringUtils.isNotBlank(temp)) {
+                meta.setPrice(Double.parseDouble(temp.substring(temp.indexOf(" ")).replace(",", "")));
+            } else {
+                meta.setPrice(0.0);
+            }
         }
 
         if (!(a = (String) productSourceMap.get(site).get("priceCurrency")).isEmpty()) {
@@ -87,15 +92,22 @@ public class ProductMetaStrategy extends WebMetaStrategy {
         }
 
         if (!(a = (String) productSourceMap.get(site).get("ratingCount")).isEmpty()) {
-            meta.setRatingCount(Integer.parseInt(StrategyHelper.getSchemaPropery(productBlock, (String) productSourceMap.get(site).get("ratingCount"))));
+            String r = StrategyHelper.getSchemaPropery(productBlock, (String) productSourceMap.get(site).get("ratingCount"));
+            meta.setRatingCount(StringUtils.isNotBlank(r) ? Integer.parseInt(r) : 0);
         }
 
         if (!(a = (String) productSourceMap.get(site).get("ratingValue")).isEmpty()) {
-            meta.setRatingValue((int) Math.ceil(Double.parseDouble(StrategyHelper.getSchemaPropery(productBlock, (String) productSourceMap.get(site).get("ratingValue")))));
+            String r = StrategyHelper.getSchemaPropery(productBlock, (String) productSourceMap.get(site).get("ratingValue"));
+            if (StringUtils.isNotBlank(r)) {
+                meta.setRatingValue((int) Math.ceil(Double.parseDouble(r)));
+            } else {
+                meta.setRatingValue(0);
+            }
         }
 
         if (!(a = (String) productSourceMap.get(site).get("reviewCount")).isEmpty()) {
-            meta.setReviewCount(Integer.parseInt(StrategyHelper.getSchemaPropery(productBlock, (String) productSourceMap.get(site).get("reviewCount"))));
+            String r = StrategyHelper.getSchemaPropery(productBlock, (String) productSourceMap.get(site).get("reviewCount"));
+            meta.setReviewCount(StringUtils.isNotBlank(r) ? Integer.parseInt(r) : 0);
         }
 
         if (!(a = (String) productSourceMap.get(site).get("thumbnail")).isEmpty()) {
