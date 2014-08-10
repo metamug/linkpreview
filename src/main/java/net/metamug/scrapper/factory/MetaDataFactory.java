@@ -1,6 +1,8 @@
 package net.metamug.scrapper.factory;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.metamug.scrapper.entity.WebMetaData;
 import net.metamug.scrapper.strategy.FlickrStrategy;
 import net.metamug.scrapper.strategy.ProductMetaStrategy;
@@ -9,6 +11,8 @@ import net.metamug.scrapper.strategy.WebMetaStrategy;
 import net.metamug.scrapper.strategy.WikipediaMetaStrategy;
 import net.metamug.scrapper.util.DownloadManager;
 import static net.metamug.scrapper.util.ScrapperUtil.getHost;
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.jsoup.Connection.Response;
@@ -22,6 +26,8 @@ import org.jsoup.nodes.Element;
  */
 public class MetaDataFactory {
 
+    public static final int URL_MAX_LENGTH = 2000;
+
     /**
      * Get meta data from the supplied URL
      *
@@ -29,7 +35,7 @@ public class MetaDataFactory {
      * @return meta data
      */
     public static WebMetaData create(String url) {
-        
+        url = removeExecessiveQueryStrings(url);
         Response response = DownloadManager.getResponse(url);
 
         if (response == null || response.contentType() == null) {
@@ -37,14 +43,39 @@ public class MetaDataFactory {
         }
         if (response.contentType().startsWith("image")) {
             return new WebMetaData("Image ", getHost(url), WebMetaData.IMAGE,
-                    WordUtils.capitalize(FilenameUtils.getBaseName(url).replaceAll("[-_]", " ")),
+                    getWebObjectName(url),
                     url.split("\\?")[0]);
         } else if (response.contentType().startsWith("application/pdf")) {
-            return new WebMetaData("PDF", getHost(url), WebMetaData.PDF, url, WebMetaData.SYMBOL_PDF);
+            return new WebMetaData("PDF", getHost(url), WebMetaData.PDF, getWebObjectName(url), WebMetaData.SYMBOL_PDF);
         } else if (response.contentType().startsWith("audio")) {
-            return new WebMetaData("Audio", getHost(url), WebMetaData.AUDIO, url, WebMetaData.SYMBOL_MUSIC);
+            return new WebMetaData("Audio", getHost(url), WebMetaData.AUDIO, getWebObjectName(url), WebMetaData.SYMBOL_MUSIC);
         } else {
             return useStrategy(response, url);
+        }
+    }
+
+    public static String removeExecessiveQueryStrings(String url) {
+        if (url.length() > URL_MAX_LENGTH) {
+            String[] tokens = url.split("&");
+            StringBuilder builder = new StringBuilder();
+            builder.append(tokens[0]);
+            for (int i = 1; i < 1 + 5; i++) {
+                builder.append("&").append(tokens[i]);
+            }
+            url = builder.toString();
+        }
+        return url;
+    }
+
+    public static String getWebObjectName(String url) {
+        try {
+            URLCodec codec = new URLCodec();
+            String cleanText = WordUtils.capitalize(FilenameUtils.getBaseName(url).replaceAll("[-_]", " "));
+            cleanText = codec.decode(cleanText);
+            return cleanText;
+        } catch (DecoderException ex) {
+            Logger.getLogger(MetaDataFactory.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
 

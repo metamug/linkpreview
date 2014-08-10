@@ -16,12 +16,12 @@ import net.metamug.scrapper.entity.MetaData;
 import net.metamug.scrapper.entity.WebMetaData;
 import net.metamug.scrapper.util.DownloadManager;
 import net.metamug.scrapper.util.ImageUtil;
+import static net.metamug.scrapper.util.ScrapperUtil.getHost;
+import static net.metamug.scrapper.util.ScrapperUtil.makeAbsoluteURL;
 import static net.metamug.scrapper.util.StrategyHelper.getFirstAttributeValue;
 import static net.metamug.scrapper.util.StrategyHelper.getFirstLongText;
 import static net.metamug.scrapper.util.StrategyHelper.getFirstText;
 import static net.metamug.scrapper.util.StrategyHelper.getMetaTagContent;
-import static net.metamug.scrapper.util.ScrapperUtil.getHost;
-import static net.metamug.scrapper.util.ScrapperUtil.makeAbsoluteURL;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Connection.Response;
@@ -215,12 +215,10 @@ public class WebMetaStrategy implements MetaStrategy {
         String fullPath = makeAbsoluteURL(thumbURL, url);
 
         //remove query string.
-        fullPath = fullPath.split("\\?")[0];
+        fullPath = fullPath != null ? fullPath.split("\\?")[0] : null;
 
         return fullPath;
     }
-
-
 
     private String getType() {
         try {
