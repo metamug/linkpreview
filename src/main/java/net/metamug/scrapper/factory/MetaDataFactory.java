@@ -70,13 +70,26 @@ public class MetaDataFactory {
     public static String getWebObjectName(String url) {
         try {
             URLCodec codec = new URLCodec();
-            String cleanText = WordUtils.capitalize(FilenameUtils.getBaseName(url).replaceAll("[-_]", " "));
+            String cleanText = FilenameUtils.getBaseName(url).replaceAll("[-_]", " ");
+            cleanText = splitCamelCase(cleanText);
+            cleanText = WordUtils.capitalize(cleanText);
             cleanText = codec.decode(cleanText);
             return cleanText;
         } catch (DecoderException ex) {
             Logger.getLogger(MetaDataFactory.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+    }
+
+    public static String splitCamelCase(String s) {
+        return s.replaceAll(
+                String.format("%s|%s|%s",
+                        "(?<=[A-Z])(?=[A-Z][a-z])",
+                        "(?<=[^A-Z])(?=[A-Z])",
+                        "(?<=[A-Za-z])(?=[^A-Za-z])"
+                ),
+                " "
+        );
     }
 
     /**
