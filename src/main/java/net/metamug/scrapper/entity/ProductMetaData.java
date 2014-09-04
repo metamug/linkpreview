@@ -28,6 +28,7 @@ public class ProductMetaData extends WebMetaData implements MetaData {
     String manufacturer; 
     @Expose
     String condition; //new or old.
+    String[] breadcrumbs;
 
     public ProductMetaData() {
     }
