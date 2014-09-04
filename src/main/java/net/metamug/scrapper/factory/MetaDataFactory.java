@@ -35,6 +35,10 @@ public class MetaDataFactory {
      * @return meta data
      */
     public static WebMetaData create(String url) {
+        WebMetaData webMetaData;
+        if ((webMetaData = handleExtension(url)) != null) {
+            return webMetaData;
+        }
         url = removeExecessiveQueryStrings(url);
         Response response = DownloadManager.getResponse(url);
 
@@ -51,6 +55,16 @@ public class MetaDataFactory {
             return new WebMetaData("Audio", getHost(url), WebMetaData.AUDIO, getWebObjectName(url), WebMetaData.SYMBOL_MUSIC);
         } else {
             return useStrategy(response, url);
+        }
+    }
+
+    public static WebMetaData handleExtension(String url) {
+        if (url.endsWith(".pdf")) {
+            return new WebMetaData("PDF", getHost(url), WebMetaData.PDF, getWebObjectName(url), WebMetaData.SYMBOL_PDF);
+        } else if (url.endsWith(".mp3")) {
+            return new WebMetaData("Audio", getHost(url), WebMetaData.AUDIO, getWebObjectName(url), WebMetaData.SYMBOL_MUSIC);
+        } else {
+            return null;
         }
     }
 

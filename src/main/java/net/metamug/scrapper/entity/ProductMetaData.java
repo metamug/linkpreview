@@ -28,6 +28,7 @@ public class ProductMetaData extends WebMetaData implements MetaData {
     String manufacturer; 
     @Expose
     String condition; //new or old.
+    String[] breadcrumbs;
 
     public ProductMetaData() {
     }
@@ -100,6 +101,16 @@ public class ProductMetaData extends WebMetaData implements MetaData {
     {
         this.manufacturer = brand;
     }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+    
+    
     @Override
     public String toString() {
         return "ProductMetaData{" + "name=" + name + ", ratingValue=" + ratingValue + ", ratingCount=" + ratingCount + ", reviewCount=" + reviewCount + ", price=" + price + ", priceCurrency=" + priceCurrency + '}';

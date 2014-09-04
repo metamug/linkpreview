@@ -28,6 +28,7 @@ import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 /**
@@ -218,6 +219,18 @@ public class WebMetaStrategy implements MetaStrategy {
         fullPath = fullPath != null ? fullPath.split("\\?")[0] : null;
 
         return fullPath;
+    }
+
+    private List<String> getBreadCrumbs() {
+        List<String> breadCrumbs = new ArrayList();
+        Elements elements= doc.select("matchesOwn(>)");
+        for(Element e:elements){
+            Node siblingNode = e.nextSibling();
+            if(siblingNode.nodeName().equals("a")){
+                
+            }
+        }
+        return null;
     }
 
     private String getType() {
