@@ -4,6 +4,8 @@
  */
 package net.metamug.scrapper.util;
 
+import net.metamug.scrapper.entity.MetaData;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -174,5 +176,18 @@ public class StrategyHelper {
         }
 
         return content;
+    }
+
+    /**
+     * Determines if a piece of text is not to short
+     *
+     * @param text
+     * @return
+     */
+    public static boolean isNotTooShort(String text) {
+        if (StringUtils.isNotBlank(text) && text.length() > MetaData.MIN_DESC_LENGTH) {
+            return false;
+        }
+        return true;
     }
 }

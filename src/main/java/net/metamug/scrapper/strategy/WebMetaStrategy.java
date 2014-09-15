@@ -18,6 +18,7 @@ import net.metamug.scrapper.util.DownloadManager;
 import net.metamug.scrapper.util.ImageUtil;
 import static net.metamug.scrapper.util.ScrapperUtil.getHost;
 import static net.metamug.scrapper.util.ScrapperUtil.makeAbsoluteURL;
+import net.metamug.scrapper.util.StrategyHelper;
 import static net.metamug.scrapper.util.StrategyHelper.getFirstAttributeValue;
 import static net.metamug.scrapper.util.StrategyHelper.getFirstLongText;
 import static net.metamug.scrapper.util.StrategyHelper.getFirstText;
@@ -168,24 +169,22 @@ public class WebMetaStrategy implements MetaStrategy {
 
     public String getDescription() {
         String desc;
-        if (StringUtils.isNotBlank(desc = getMetaTagContent(doc, "meta[itemprop=description]"))) { //video objects
-        } else if (StringUtils.isNotBlank(desc = getMetaTagContent(doc, "meta[name=og:description]"))) {
-        } else if (StringUtils.isNotBlank(desc = getMetaTagContent(doc, "meta[property=og:description]"))) {
-        } else if (StringUtils.isNotBlank(desc = getMetaTagContent(doc, "meta[name=twitter:description]"))) {
-        } else if (StringUtils.isNotBlank(desc = getMetaTagContent(doc, "meta[name=description]"))) {
-        } else if (StringUtils.isNotBlank(desc = getFirstText(doc, "div[itemprop*=description]"))) { //since description itemprop is multivalued
-        } else if (StringUtils.isNotBlank(desc = getFirstLongText(doc, "p", 80))) { //take p tags
-        }
-
-        // Create short description
-        if (desc != null) {
-            if (desc.length() >= WebMetaData.MAX_DESC_LENGTH) {
-                desc = desc.substring(0, WebMetaData.MAX_DESC_LENGTH) + "...";
-            }
-            return (desc);
+        if (StrategyHelper.isNotTooShort(desc = getMetaTagContent(doc, "meta[itemprop=description]"))) { //video objects
+        } else if (StrategyHelper.isNotTooShort(desc = getMetaTagContent(doc, "meta[name=og:description]"))) {
+        } else if (StrategyHelper.isNotTooShort(desc = getMetaTagContent(doc, "meta[property=og:description]"))) {
+        } else if (StrategyHelper.isNotTooShort(desc = getMetaTagContent(doc, "meta[name=twitter:description]"))) {
+        } else if (StrategyHelper.isNotTooShort(desc = getMetaTagContent(doc, "meta[name=description]"))) {
+        } else if (StrategyHelper.isNotTooShort(desc = getFirstText(doc, "div[itemprop*=description]"))) { //since description itemprop is multivalued
+        } else if (StrategyHelper.isNotTooShort(desc = getFirstLongText(doc, "p", MetaData.MIN_DESC_LENGTH))) { //take p tags
         } else {
             return null;
         }
+
+        if (desc.length() >= WebMetaData.MAX_DESC_LENGTH) {
+            desc = desc.substring(0, WebMetaData.MAX_DESC_LENGTH) + "...";
+        }
+        return (desc);
+
     }
 
     public String getThumbnailURL() {
@@ -223,11 +222,11 @@ public class WebMetaStrategy implements MetaStrategy {
 
     private List<String> getBreadCrumbs() {
         List<String> breadCrumbs = new ArrayList();
-        Elements elements= doc.select("matchesOwn(>)");
-        for(Element e:elements){
+        Elements elements = doc.select("matchesOwn(>)");
+        for (Element e : elements) {
             Node siblingNode = e.nextSibling();
-            if(siblingNode.nodeName().equals("a")){
-                
+            if (siblingNode.nodeName().equals("a")) {
+
             }
         }
         return null;
