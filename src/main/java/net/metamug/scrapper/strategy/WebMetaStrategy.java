@@ -220,10 +220,21 @@ public class WebMetaStrategy implements MetaStrategy {
 
         String fullPath = makeAbsoluteURL(thumbURL, url);
 
-        //remove query string.
-        fullPath = fullPath != null ? fullPath.split("\\?")[0] : null;
+        //Check if its possible to return path without query string
+        if (StringUtils.isNotBlank(fullPath)) {
+            String withoutQueryStringPath = fullPath.split("\\?")[0];
+            Response r = DownloadManager.getResponse(withoutQueryStringPath);
+            
+            if (r.statusCode() != 200) {
+                return withoutQueryStringPath;
+            } else {
+                return fullPath;
+            }
+            
+        } else {
+            return null;
+        }
 
-        return fullPath;
     }
 
     private List<String> getBreadCrumbs() {
