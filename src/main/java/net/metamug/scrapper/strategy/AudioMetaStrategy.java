@@ -16,11 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import net.metamug.scrapper.entity.AudioMetaData;
-import net.metamug.scrapper.entity.MetaData;
-import net.metamug.scrapper.entity.MetaImage;
 import net.metamug.scrapper.entity.WebMetaData;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.jsoup.nodes.Document;
 
 /**
  *
