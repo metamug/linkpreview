@@ -5,10 +5,16 @@ package net.metamug.scrapper.entity;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import javax.xml.bind.annotation.XmlAttribute;  
+import javax.xml.bind.annotation.XmlElement;  
+import javax.xml.bind.annotation.XmlRootElement;  
+
 /**
  *
  * @author bhatt
  */
+
+@XmlRootElement
 public class WebMetaData implements MetaData {
     
 
