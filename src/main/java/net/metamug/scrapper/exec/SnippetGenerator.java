@@ -11,8 +11,8 @@ import net.metamug.scrapper.entity.WebMetaData;
 public class SnippetGenerator implements RequestProcessable {
 
     @Override
-    public Response process(Request rqst, DataSource ds, Map<String, Object> params) throws Exception {
-        String url = (String) params.get("url");
+    public Response process(Request rqst, DataSource ds, Map<String, Object> args) throws Exception {
+        String url = (String) args.get("url");
         WebMetaData result = null;
         try {
             result = MetaDataFactory.create(url);
